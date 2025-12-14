@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>🎮 بازی‌های روزبه</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Vazirmatn', sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 2.2rem;
+    }
+
+    .games {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .game-btn {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #333;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .game-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    }
+
+    .game-btn img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      margin-bottom: 12px;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>🎮 انتخاب بازی</h1>
+
+  <div class="games">
+
+    <a href="https://rouzgame.ir/fruitninja">
+      <div class="game-btn">
+        <img src="images/fruit.png" alt="Fruit Ninja">
+        فروت نینجا
+      </div>
+    </a>
+
+    <a href="https://rouzgame.ir/maze">
+      <div class="game-btn">
+        <img src="images/maze.png" alt="Maze">
+        ماز
+      </div>
+    </a>
+
+    <a href="https://rouzgame.ir/aliens">
+      <div class="game-btn">
+        <img src="images/aliens.png" alt="Aliens">
+        فرازمینی‌ها
+      </div>
+    </a>
+
+    <a href="https://rouzgame.ir/astronauts">
+      <div class="game-btn">
+        <img src="images/astronaut.png" alt="Astronaut Rescue">
+        نجات فضانورد
+      </div>
+    </a>
+
+  </div>
+
+  <footer>
+    ساخته شده برای بچه های روزبه 🌈
+  </footer>
+
+</body>
+</html>
