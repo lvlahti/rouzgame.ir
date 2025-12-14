@@ -1,28 +1,70 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>🎮 بازی‌های روزبه</title>
+  <title> بازی‌های روزبه</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
+    * { box-sizing: border-box; }
+
     body {
       margin: 0;
       min-height: 100vh;
       font-family: 'Vazirmatn', sans-serif;
-      background: linear-gradient(135deg, #e0f7fa, #fce4ec);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 20px;
+      overflow: hidden;
+
+  
+      background:
+        radial-gradient(circle at 10% 10%, #fff6a6 0 120px, transparent 121px),
+        radial-gradient(circle at 90% 20%, #ffd3e7 0 140px, transparent 141px),
+        radial-gradient(circle at 20% 90%, #c7f7ff 0 160px, transparent 161px),
+        linear-gradient(180deg, #b7ecff 0%, #d8fff0 60%, #fff5d6 100%);
+    }
+
+    /* ابرها */
+    .cloud {
+      position: absolute;
+      width: 220px;
+      height: 70px;
+      background: rgba(255,255,255,0.85);
+      border-radius: 999px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    }
+    .cloud::before,
+    .cloud::after {
+      content: "";
+      position: absolute;
+      background: rgba(255,255,255,0.9);
+      border-radius: 999px;
+    }
+    .cloud::before { width: 90px; height: 90px; right: 30px; top: -35px; }
+    .cloud::after  { width: 70px; height: 70px; right: 120px; top: -25px; }
+
+    .c1 { top: 70px; right: 6%; animation: float1 8s ease-in-out infinite; }
+    .c2 { top: 160px; left: 8%; animation: float2 10s ease-in-out infinite; }
+    .c3 { top: 260px; right: 18%; animation: float1 12s ease-in-out infinite; }
+
+    @keyframes float1 {
+      0%,100% { transform: translateX(0); }
+      50% { transform: translateX(-30px); }
+    }
+    @keyframes float2 {
+      0%,100% { transform: translateX(0); }
+      50% { transform: translateX(35px); }
     }
 
     h1 {
       color: #333;
       margin-bottom: 30px;
       font-size: 2.2rem;
+      z-index: 2;
     }
 
     .games {
@@ -31,11 +73,10 @@
       gap: 20px;
       width: 100%;
       max-width: 600px;
+      z-index: 2;
     }
 
-    a {
-      text-decoration: none;
-    }
+    a { text-decoration: none; }
 
     .game-btn {
       background: white;
@@ -65,13 +106,19 @@
       margin-top: 40px;
       font-size: 0.9rem;
       color: #555;
+      z-index: 2;
     }
   </style>
 </head>
 
 <body>
 
-  <h1>🎮 انتخاب بازی</h1>
+  <!-- ابرها -->
+  <div class="cloud c1"></div>
+  <div class="cloud c2"></div>
+  <div class="cloud c3"></div>
+
+  <h1> انتخاب بازی</h1>
 
   <div class="games">
 
@@ -103,13 +150,18 @@
       </div>
     </a>
 
+    <a href="https://rouzgame.ir/fruitninja">
+      <div class="game-btn">
+        <img src="images/fruit.png" alt="Fruit Ninja">
+        بازی های منتخب
+      </div>
+    </a>
+
   </div>
 
   <footer>
-    ساخته شده برای بچه های روزبه 🌈
+   موسسه فرهنگی روزبه
   </footer>
 
 </body>
 </html>
-
-
