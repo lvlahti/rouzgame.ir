@@ -101,6 +101,12 @@
       object-fit: contain;
       margin-bottom: 12px;
     }
+    .featured {
+      grid-column: 1 / -1;   /* کل عرض گرید */
+      display: flex;
+      justify-content: center;
+    }
+
 
     footer {
       margin-top: 40px;
@@ -150,12 +156,20 @@
       </div>
     </a>
 
-    <a href="https://rouzgame.ir/montakhab">
+    <!-- <a href="https://rouzgame.ir/montakhab">
       <div class="game-btn">
         <img src="images/montakhab.png" alt="Montakhab">
         بازی های منتخب
       </div>
+    </a> -->
+
+    <a href="#" class="featured">
+      <div class="game-btn">
+        <img src="images/featured.png" alt="Featured Games">
+        بازی‌های منتخب
+      </div>
     </a>
+
 
   </div>
 
@@ -165,5 +179,6 @@
 
 </body>
 </html>
+
 
 
