@@ -2,141 +2,48 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title> بازی‌های روزبه</title>
+  <title>بازی‌های روزبه</title>
   <link rel="icon" type="image/png" href="logo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
-
-  <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: 'Vazirmatn', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      overflow-y: auto;
-      overflow-x: hidden;
-
-  
-      background:
-        radial-gradient(circle at 10% 10%, #fff6a6 0 120px, transparent 121px),
-        radial-gradient(circle at 90% 20%, #ffd3e7 0 140px, transparent 141px),
-        radial-gradient(circle at 20% 90%, #c7f7ff 0 160px, transparent 161px),
-        linear-gradient(180deg, #b7ecff 0%, #d8fff0 60%, #fff5d6 100%);
-    }
-
-    /* ابرها */
-    .cloud {
-      position: absolute;
-      width: 220px;
-      height: 70px;
-      background: rgba(255,255,255,0.85);
-      border-radius: 999px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-    }
-    .cloud::before,
-    .cloud::after {
-      content: "";
-      position: absolute;
-      background: rgba(255,255,255,0.9);
-      border-radius: 999px;
-    }
-    .cloud::before { width: 90px; height: 90px; right: 30px; top: -35px; }
-    .cloud::after  { width: 70px; height: 70px; right: 120px; top: -25px; }
-
-    .c1 { top: 70px; right: 6%; animation: float1 8s ease-in-out infinite; }
-    .c2 { top: 160px; left: 8%; animation: float2 10s ease-in-out infinite; }
-    .c3 { top: 260px; right: 18%; animation: float1 12s ease-in-out infinite; }
-
-    @keyframes float1 {
-      0%,100% { transform: translateX(0); }
-      50% { transform: translateX(-30px); }
-    }
-    @keyframes float2 {
-      0%,100% { transform: translateX(0); }
-      50% { transform: translateX(35px); }
-    }
-
-    h1 {
-      color: #333;
-      margin-bottom: 30px;
-      font-size: 2.2rem;
-      z-index: 2;
-    }
-
-    .games {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      width: 100%;
-      max-width: 600px;
-      z-index: 2;
-    }
-
-    a { text-decoration: none; }
-
-    .game-btn {
-      background: white;
-      border-radius: 20px;
-      padding: 20px;
-      text-align: center;
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #333;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .game-btn:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 25px rgba(0,0,0,0.15);
-    }
-
-    .game-btn img {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
-      margin-bottom: 12px;
-    }
-    .featured {
-      grid-column: 1 / -1;   /* کل عرض گرید */
-      display: flex;
-      justify-content: center;
-    }
-
-
-    footer {
-      margin-top: 40px;
-      font-size: 0.9rem;
-      color: #555;
-      z-index: 2;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
   <!-- ابرها -->
-  <div class="cloud c1"></div>
-  <div class="cloud c2"></div>
-  <div class="cloud c3"></div>
+  <div class="cloud c1">
+    <div class="eyes">
+      <span class="eye"><i></i></span>
+      <span class="eye"><i></i></span>
+    </div>
+  </div>
 
-  <h1> انتخاب بازی</h1>
+  <div class="cloud c2">
+    <div class="eyes">
+      <span class="eye"><i></i></span>
+      <span class="eye"><i></i></span>
+    </div>
+  </div>
+
+  <div class="cloud c3">
+    <div class="eyes">
+      <span class="eye"><i></i></span>
+      <span class="eye"><i></i></span>
+    </div>
+  </div>
+
+  <h1>انتخاب بازی</h1>
 
   <div class="games">
 
-    <a href="#" class="featured">
+    <a href="https://rouzgame.ir/montakhab" class="featured">
       <div class="game-btn">
         <img src="images/montakhab.png" alt="Montakhab">
         بازی‌های منتخب
       </div>
     </a>
-
 
     <a href="https://rouzgame.ir/fruitninja">
       <div class="game-btn">
@@ -166,25 +73,28 @@
       </div>
     </a>
 
-    <!-- <a href="https://rouzgame.ir/montakhab">
-      <div class="game-btn">
-        <img src="images/montakhab.png" alt="Montakhab">
-        بازی های منتخب
-      </div>
-    </a> -->
-
-
-
   </div>
 
-  <footer>
-   موسسه فرهنگی روزبه
-  </footer>
+  <footer>موسسه فرهنگی روزبه</footer>
+
+  <!-- JS دنبال‌کردن موس -->
+  <script>
+    document.addEventListener("mousemove", e => {
+      document.querySelectorAll(".eye").forEach(eye => {
+        const pupil = eye.querySelector("i");
+        const rect = eye.getBoundingClientRect();
+
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
+
+        const angle = Math.atan2(e.clientY - y, e.clientX - x);
+        const max = 4;
+
+        pupil.style.transform =
+          `translate(${Math.cos(angle) * max}px, ${Math.sin(angle) * max}px)`;
+      });
+    });
+  </script>
 
 </body>
 </html>
-
-
-
-
-

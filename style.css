@@ -1,0 +1,177 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Vazirmatn', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(circle at 10% 10%, #fff6a6 0 120px, transparent 121px),
+    radial-gradient(circle at 90% 20%, #ffd3e7 0 140px, transparent 141px),
+    radial-gradient(circle at 20% 90%, #c7f7ff 0 160px, transparent 161px),
+    linear-gradient(180deg, #b7ecff 0%, #d8fff0 60%, #fff5d6 100%);
+}
+
+/* ابرها */
+.cloud {
+  position: absolute;
+  width: 220px;
+  height: 70px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 999px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  background: rgba(255,255,255,0.9);
+  border-radius: 999px;
+}
+
+.cloud::before {
+  width: 90px;
+  height: 90px;
+  right: 30px;
+  top: -35px;
+}
+
+.cloud::after {
+  width: 70px;
+  height: 70px;
+  right: 120px;
+  top: -25px;
+}
+
+.c1 { top: 70px; right: 6%; animation: float1 8s ease-in-out infinite; }
+.c2 { top: 160px; left: 8%; animation: float2 10s ease-in-out infinite; }
+.c3 { top: 260px; right: 18%; animation: float1 12s ease-in-out infinite; }
+
+@keyframes float1 {
+  0%,100% { transform: translateX(0); }
+  50% { transform: translateX(-30px); }
+}
+
+@keyframes float2 {
+  0%,100% { transform: translateX(0); }
+  50% { transform: translateX(35px); }
+}
+
+/* چشم‌ها */
+.eyes {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+}
+
+/* چشم اصلی */
+.eye {
+  width: 60px;
+  height: 60px;
+  background: #fff;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* دایره سفید داخلی */
+.eye::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+  position: absolute;
+}
+
+/* مردمک مشکی */
+.eye i {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #222;
+  border-radius: 50%;
+  transition: transform 0.05s linear;
+}
+
+.eye {
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.eye i {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  background: #333;
+  border-radius: 50%;
+  top: 5px;
+  left: 5px;
+  transition: transform 0.05s linear;
+}
+
+/* بازی‌ها */
+.games {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 600px;
+  z-index: 2;
+}
+
+.featured {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+}
+
+a { text-decoration: none; }
+
+.game-btn {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.game-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.game-btn img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+footer {
+  margin-top: 40px;
+  font-size: 0.9rem;
+  color: #555;
+  z-index: 2;
+}
