@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>montakhab</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ابرها -->
+  <div class="cloud c1">
+    <div class="eyes">
+      <span class="eye"><i></i></span>
+      <span class="eye"><i></i></span>
+    </div>
+  </div>
+
+  <div class="cloud c2">
+    <div class="eyes">
+      <span class="eye"><i></i></span>
+      <span class="eye"><i></i></span>
+    </div>
+  </div>
+
+  <div class="cloud c3">
+    <div class="eyes">
+      <span class="eye"><i></i></span>
+      <span class="eye"><i></i></span>
+    </div>
+  </div>
+
+  <h1></h1>
+
+  <div class="games">
+    <a href="#"><div class="game-btn"><img src="images/default.png">01</div></a>
+    <a href="#"><div class="game-btn"><img src="images/default.png">02</div></a>
+    <a href="#"><div class="game-btn"><img src="images/default.png">03</div></a>
+    <a href="#"><div class="game-btn"><img src="images/default.png">04</div></a>
+    <a href="#"><div class="game-btn"><img src="images/default.png">05</div></a>
+    <a href="#"><div class="game-btn"><img src="images/default.png">06</div></a>
+  </div>
+
+  <footer>موسسه فرهنگی روزبه</footer>
+
+  <!-- JS دنبال‌کردن موس -->
+  <script>
+    document.addEventListener("mousemove", e => {
+      document.querySelectorAll(".eye").forEach(eye => {
+        const pupil = eye.querySelector("i");
+        const rect = eye.getBoundingClientRect();
+
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
+
+        const angle = Math.atan2(e.clientY - y, e.clientX - x);
+        const move = 4;
+
+        pupil.style.transform =
+          `translate(${Math.cos(angle) * move}px, ${Math.sin(angle) * move}px)`;
+      });
+    });
+  </script>
+
+</body>
+</html>
