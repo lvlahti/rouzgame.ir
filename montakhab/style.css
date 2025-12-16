@@ -123,7 +123,7 @@ body {
    دهان ابر
 ======================= */
 
-.mouth {
+.moustache {
   position: absolute;
   bottom: -15px;
   left: 50%;
@@ -184,6 +184,7 @@ footer {
   color: #555;
   z-index: 2;
 }
+
 
 
 
