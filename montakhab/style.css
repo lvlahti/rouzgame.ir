@@ -125,10 +125,10 @@ body {
 
 .mouth {
   position: absolute;
-  bottom: 6px;
+  bottom: -15px;
   left: 50%;
   transform: translateX(-50%);
-  width: 40px;
+  width: 100px;
   height: auto;
   pointer-events: none;
 }
@@ -184,5 +184,6 @@ footer {
   color: #555;
   z-index: 2;
 }
+
 
 
