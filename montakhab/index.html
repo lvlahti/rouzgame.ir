@@ -65,24 +65,7 @@
 
   <footer>موسسه فرهنگی روزبه</footer>
 
-  <!-- JS دنبال‌کردن موس -->
-  <script>
-    document.addEventListener("mousemove", e => {
-      document.querySelectorAll(".eye").forEach(eye => {
-        const pupil = eye.querySelector("i");
-        const rect = eye.getBoundingClientRect();
 
-        const x = rect.left + rect.width / 2;
-        const y = rect.top + rect.height / 2;
-
-        const angle = Math.atan2(e.clientY - y, e.clientX - x);
-        const move = 4;
-
-        pupil.style.transform =
-          `translate(${Math.cos(angle) * move}px, ${Math.sin(angle) * move}px)`;
-      });
-    });
-  </script>
 
       <!-- // درگ و دراپ ابر   -->
   <script>
@@ -129,6 +112,7 @@
       activeCloud = null;
     });
 </script>
+<script src="main.js"></script>
 
 
 </body>
