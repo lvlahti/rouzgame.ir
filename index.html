@@ -12,6 +12,10 @@
 
 <body>
 
+<img src="images/poshtabr01.png" class="behind-cloud" style="display:none;">
+<img src="images/poshtabr02.png" class="behind-cloud" style="display:none;">
+
+
   <!-- ابرها -->
   <div class="cloud c1">
     <div class="eyes">
@@ -80,24 +84,10 @@
   </footer>
 
 
-  <!-- JS دنبال‌کردن موس -->
-  <script>
-    document.addEventListener("mousemove", e => {
-      document.querySelectorAll(".eye").forEach(eye => {
-        const pupil = eye.querySelector("i");
-        const rect = eye.getBoundingClientRect();
 
-        const x = rect.left + rect.width / 2;
-        const y = rect.top + rect.height / 2;
+<script src="main.js"></script>
 
-        const angle = Math.atan2(e.clientY - y, e.clientX - x);
-        const max = 4;
 
-        pupil.style.transform =
-          `translate(${Math.cos(angle) * max}px, ${Math.sin(angle) * max}px)`;
-      });
-    });
-  </script>
 
 </body>
 </html>
