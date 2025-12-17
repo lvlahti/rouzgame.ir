@@ -47,6 +47,7 @@ body {
   position: absolute;
   background: rgba(255,255,255,0.9);
   border-radius: 999px;
+  z-index: 2;
 }
 
 .cloud::before {
@@ -89,6 +90,8 @@ body {
   transform: translateX(-50%);
   display: flex;
   gap: 14px;
+  transition: transform 0.3s ease;
+  z-index: 5;
 }
 
 .eye {
@@ -117,6 +120,7 @@ body {
   top: 6px;
   left: 6px;
   transition: transform 0.05s linear;
+  z-index: 5;
 }
 
 /* =======================
@@ -129,9 +133,11 @@ body {
   left: 50%;
   transform: translateX(-50%);
   width: 100px;
-  height: auto;
   pointer-events: none;
+  transition: transform 0.3s ease;
+  z-index: 7;
 }
+
 
 /* =======================
    بازی‌ها
@@ -159,20 +165,52 @@ a {
   font-weight: bold;
   color: #333;
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s, box-shadow 0.3s, filter 0.3s;
+  position: relative;
+  z-index: 1;
 }
 
 .game-btn:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+  /* نور خورشید پشت کادر */
+  box-shadow: 0 0 30px 10px rgba(255, 255, 150, 0.7), 0 12px 25px rgba(0,0,0,0.15);
 }
 
 .game-btn img {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   object-fit: contain;
   margin-bottom: 12px;
 }
+
+/* =======================
+   لبخند مخفی
+======================= */
+
+.smile {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.7);
+  width: 70px;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.cloud:hover .moustache {
+  transform: translateX(-50%) translateY(-18px);
+}
+
+.cloud:hover .smile {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+.cloud:hover .eyes {
+  transform: translateX(-50%) translateY(-16px);
+}
+
 
 /* =======================
    فوتر
@@ -182,7 +220,6 @@ footer {
   margin-top: 40px;
   font-size: 0.9rem;
   color: #555;
-  z-index: 2;
 }
 
 
