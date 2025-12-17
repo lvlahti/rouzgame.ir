@@ -127,6 +127,25 @@ body {
   transition: transform 0.05s linear;
 }
 
+/* پلک */
+.eye::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 50%;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.1s ease-in-out;
+}
+
+.eye.blink::after {
+  transform: scaleY(1); /* پلک پایین می‌آید */
+}
+
 /* بازی‌ها */
 .games {
   display: grid;
@@ -199,13 +218,5 @@ footer {
   z-index: 2;
 }
 
-
-/* برای کاراکتر پشت ابر */
-.behind-cloud {
-  position: absolute;
-  width: 60px;
-  transition: transform 0.5s ease, opacity 0.5s ease;
-  opacity: 0;
-}
 
 

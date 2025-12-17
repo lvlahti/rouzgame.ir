@@ -44,3 +44,23 @@ function stopRain(cloud) {
     rainIntervals.delete(cloud);
   }
 }
+
+// پلک زدن رندوم
+function blinkCloudsRandomly() {
+  const clouds = document.querySelectorAll(".cloud");
+
+  clouds.forEach(cloud => {
+    if (Math.random() < 0.1) { // احتمال پلک زدن هر ابر
+      const eyes = cloud.querySelectorAll(".eye");
+      eyes.forEach(eye => eye.classList.add("blink"));
+
+      setTimeout(() => {
+        eyes.forEach(eye => eye.classList.remove("blink"));
+      }, 150); // مدت زمان پلک زدن
+    }
+  });
+}
+
+// حلقه رندوم برای پلک زدن ابرها
+setInterval(blinkCloudsRandomly, 500 + Math.random() * 1000);
+
