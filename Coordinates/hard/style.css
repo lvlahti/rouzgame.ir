@@ -19,9 +19,6 @@ body {
     linear-gradient(180deg, #b7ecff 0%, #d8fff0 60%, #fff5d6 100%);
 }
 
-/* =======================
-   دکمه بازگشت
-======================= */
 
 .back-btn {
   position: fixed;
@@ -44,9 +41,6 @@ body {
   box-shadow: 0 12px 25px rgba(0,0,0,0.2);
 }
 
-/* =======================
-   عنوان‌ها
-======================= */
 
 h1 {
   margin: 0;
@@ -61,10 +55,6 @@ h2 {
   font-size: 2.4rem;
   color: #333;
 }
-
-/* =======================
-   iframe
-======================= */
 
 .frame-wrapper {
   background: rgba(255,255,255,0.75);
@@ -85,10 +75,6 @@ iframe {
   box-shadow: inset 0 0 0 3px #2aeb44;
 }
 
-/* =======================
-   ریسپانسیو
-======================= */
-
 @media (max-width: 860px) {
   iframe {
     width: 95vw;
@@ -105,3 +91,4 @@ iframe {
     font-size: 1.8rem;
   }
 }
+
