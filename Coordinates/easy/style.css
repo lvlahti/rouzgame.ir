@@ -93,3 +93,23 @@ iframe {
   }
 }
 
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffd3e7;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c7f7ff;
+  border-radius: 10px; 
+  border: 3px solid #f0f0f0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #fff6a6;
+}
+
+
