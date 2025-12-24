@@ -75,6 +75,80 @@ body {
   50% { transform: translateX(35px); }
 }
 
+.ship {
+  position: fixed;
+  bottom: -5px;
+  left: -200px;
+  width: 130px;
+  z-index: 1;
+  pointer-events: none;
+
+  animation:
+    ship-move 15s linear infinite,
+    ship-wave 3s ease-in-out infinite;
+}
+
+@keyframes ship-move {
+  from {
+    left: -200px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes ship-wave {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.bird {
+  position: fixed;
+  top: 120px;          /* ارتفاع پرواز */
+  left: -100px;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+
+  animation:
+    bird-fly 12s linear infinite,
+    bird-wave 3s ease-in-out infinite,
+    bird-flap 0.4s steps(1) infinite;
+    
+}
+
+/* حرکت افقی */
+@keyframes bird-fly {
+  from {
+    left: -100px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+/* بال زدن (تعویض عکس‌ها) */
+@keyframes bird-flap {
+  0%   { content: url("images/bird1.png"); }
+  25%  { content: url("images/bird2.png"); }
+  50%  { content: url("images/bird3.png"); }
+  75%  { content: url("images/bird2.png"); }
+}
+
+@keyframes bird-wave {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+
 
 
 .games {
