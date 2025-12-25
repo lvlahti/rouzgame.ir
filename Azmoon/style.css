@@ -190,6 +190,22 @@ a {
   margin-bottom: 12px;
 }
 
+.back-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(6px);
+  padding: 10px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 10;
+}
+
 
 
 .cloud:hover .eyes {
@@ -220,6 +236,7 @@ footer {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #fff6a6;
 }
+
 
 
 
