@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>در انتظار نهایی شدن پروژه</title>
+
+    <!-- Vazirmatn Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: background-image 0.8s ease-in-out;
+
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        .text {
+            color: #fff;
+            font-size: 32px;
+            font-weight: 500;
+            padding: 20px 45px;
+            background: rgba(0, 0, 0, 0.55);
+            border-radius: 14px;
+            text-align: center;
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="text">
+        در انتظار نهایی شدن پروژه
+    </div>
+
+<script>
+    const backgrounds = [
+        "bg1.svg",
+        "bg2.svg",
+        "bg3.svg",
+        "bg4.svg"
+    ];
+
+    let index = 0;
+
+    function changeBackground() {
+        document.body.style.backgroundImage = `url('${backgrounds[index]}')`;
+        index = (index + 1) % backgrounds.length;
+    }
+
+    changeBackground();
+    setInterval(changeBackground, 900);
+</script>
+
+</body>
+</html>
