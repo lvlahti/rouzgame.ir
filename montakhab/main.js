@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // دنبال کردن موس برای مردمک چشم‌ها
   document.addEventListener("mousemove", e => {
     document.querySelectorAll(".eye").forEach(eye => {
       const pupil = eye.querySelector("i");
@@ -14,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // درگ و دراپ ابر
+
   const clouds = document.querySelectorAll(".cloud");
   const initialPositions = new Map();
   let activeCloud = null;
@@ -50,7 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
     activeCloud = null;
   });
 
-  // پلک زدن رندوم جفتی برای هر ابر
   function blinkCloudsRandomly() {
     clouds.forEach(cloud => {
       if (Math.random() < 0.1) {
@@ -62,5 +60,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   setInterval(blinkCloudsRandomly, 500 + Math.random() * 1000);
+
+
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  const gamesContainer = document.querySelector('.games');
+  if (gamesContainer) {
+    const buttons = Array.from(gamesContainer.children);
+    shuffle(buttons);
+
+    const fragment = document.createDocumentFragment();
+    buttons.forEach(btn => fragment.appendChild(btn));
+    gamesContainer.innerHTML = '';
+    gamesContainer.appendChild(fragment);
+  }
 
 });
