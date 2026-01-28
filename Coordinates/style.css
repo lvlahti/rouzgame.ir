@@ -44,15 +44,36 @@ body {
 
 .level-btn.easy {
   background: linear-gradient(135deg, #4caf50, #81c784);
+
 }
 
 .level-btn.medium {
   background: linear-gradient(135deg, #ff9800, #ffb74d);
+
 }
 
 .level-btn.hard {
-  background: linear-gradient(135deg, #f44336, #e57373);
+  background: linear-gradient(135deg, #ff3300, #fa542a);
+
 }
+
+
+.level-btn.Competition {
+  background: linear-gradient(135deg, #3698f4, #85c4ff);
+  animation: leftRight 1.5s ease-in-out infinite;
+  margin-top: -60px
+}
+
+@keyframes leftRight {
+  0%  { transform: translateX(-130px); }
+  50%  { transform: translateX(130px); }
+  100%  { transform: translateX(-130px); }
+
+}
+
+
+
+
 
 .level-btn:hover {
   transform: translateY(-8px) scale(1.05);
