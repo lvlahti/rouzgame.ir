@@ -64,6 +64,7 @@ body {
 }
 
 
+
 .ship {
   position: fixed;
   bottom: 50px;
@@ -135,23 +136,6 @@ body {
   position: relative;
   z-index: 5;
 }
-
-.games-mid {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin: 20px auto;
-  position: relative;
-  font-size: 0.8rem;
-  z-index: 5;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-
 .game-btn {
   display: flex;
   flex-direction: column;
@@ -168,12 +152,81 @@ a {
   transition: transform 0.2s, box-shadow 0.3s;
 }
 
+.games-mid {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px auto;
+  position: relative;
+  font-size: 0.8rem;
+  z-index: 5;
+  animation: mid-btn 2.5s forwards;
+}
+ 
+@keyframes mid-btn {
+  0%  { transform: translateY(0px); }
+  100%  { transform: translateY(-153px); }
+
+}
+@keyframes azL-btn {
+  0%  { transform: translateX(0px); }
+  100%  { transform: translateX(-70px); }
+
+}
+@keyframes azR-btn {
+  0%  { transform: translateX(0px); }
+  100%  { transform: translateX(70px); }
+
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+.game-btnL {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.3s;
+  animation: azL-btn 1.5s forwards;
+  
+}
+.game-btnR {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.3s;
+  animation: azR-btn 1.5s forwards;
+  
+}
+
 .game-btn:hover {
   transform: translateY(-6px);
   box-shadow: 0 0 30px rgba(255,255,150,0.7), 0 12px 25px rgba(0,0,0,0.15);
 }
 
-.game-btn img {
+.game-btnL img,
+.game-btnR img {
   display: flex;
   flex-direction: column;
   width: 120px;
