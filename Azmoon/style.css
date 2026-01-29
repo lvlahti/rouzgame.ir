@@ -224,6 +224,14 @@ a {
   transform: translateY(-6px);
   box-shadow: 0 0 30px rgba(255,255,150,0.7), 0 12px 25px rgba(0,0,0,0.15);
 }
+.game-btnL:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 30px rgba(255,255,150,0.7), 0 12px 25px rgba(0,0,0,0.15);
+}
+.game-btnR:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 30px rgba(255,255,150,0.7), 0 12px 25px rgba(0,0,0,0.15);
+}
 
 .game-btnL img,
 .game-btnR img {
@@ -297,3 +305,4 @@ a {
   background: #c7f7ff;
   border-radius: 10px;
 }
+
