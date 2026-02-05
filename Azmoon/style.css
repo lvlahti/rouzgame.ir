@@ -319,3 +319,63 @@ a {
   background: #c7f7ff;
   border-radius: 10px;
 }
+
+@media (max-width: 768px) {
+
+  body {
+    font-size: 14px;
+    overflow-x: hidden;
+  }
+
+  .cloud {
+    transform: scale(0.6);
+    transform-origin: top left;
+  }
+
+  .bird {
+    width: 60px;
+    height: auto;
+  }
+
+  .ship {
+    width: 160px;
+    height: auto;
+    bottom: 3px;
+  }
+
+  .games, .games-mid {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .game-btnR,
+  .game-btnL,
+  .game-btn {
+    font-size: 14px;
+    padding: 10px 12px;
+    width: 30%;
+    margin: auto;
+  }
+
+  .game-btnR img,
+  .game-btnL img,
+  .game-btn img {
+    width: 28px;
+    height: auto;
+  }
+
+  .wave {
+    height: 100px;
+  }
+
+  footer {
+    height: 40px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+}
+
+
