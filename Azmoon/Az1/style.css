@@ -81,6 +81,7 @@ h1 {
   border: none;
   border-radius: 14px;
   display: block;
+  height: 500px;
 }
 
 .lore-box {
@@ -174,3 +175,4 @@ h1 {
   }
 
 }
+
