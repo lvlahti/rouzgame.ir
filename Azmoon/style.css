@@ -67,7 +67,7 @@ body {
 
 .ship {
   position: fixed;
-  bottom: 50px;
+  bottom: 40px;
   left: -200px;
   width: 300px;
   z-index: 2;
@@ -340,28 +340,49 @@ a {
   .ship {
     width: 160px;
     height: auto;
-    bottom: 3px;
+    bottom: 1px;
   }
 
-  .games, .games-mid {
+  .games {
     flex-direction: column;
     gap: 12px;
     align-items: center;
+    font-size: 5px;
   }
-
-  .game-btnR,
-  .game-btnL,
+  .games-mid {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    font-size: 2px;
+    animation: none;
+    width: 30%;
+    
+  }
   .game-btn {
     font-size: 14px;
     padding: 10px 12px;
-    width: 30%;
+    width: 100%;
     margin: auto;
+    animation: none;
+  }
+
+  .game-btnR,
+  .game-btnL {
+    font-size: 14px;
+    padding: 10px 12px;
+    width: 50%;
+    height: 40%;
+    margin: auto;
+    animation: none;
   }
 
   .game-btnR img,
-  .game-btnL img,
+  .game-btnL img {
+    width: 80px;
+    height: auto;
+  }
   .game-btn img {
-    width: 28px;
+    width: 20px;
     height: auto;
   }
 
@@ -377,5 +398,3 @@ a {
     font-size: 20px;
   }
 }
-
-
