@@ -240,6 +240,113 @@ footer {
 }
 
 
+@media (max-width: 768px) {
+  .games {
+    width: 50%;
+    max-width: 100%;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 15px;
+    padding: 10px 10px;
+  }
+
+  .game-btn {
+    padding: 16px 10px;
+    font-size: 0.95rem;
+  }
+
+  .game-btn img {
+    width: 80px;
+    height: 80px;
+  }
+
+    .cloud {
+    width: 140px;
+    height: 45px;
+    transform-origin: top left;
+  }
+
+  .cloud::before {
+    width: 55px;
+    height: 55px;
+    right: 18px;
+    top: -22px;
+  }
+
+  .cloud::after {
+    width: 45px; 
+    height: 45px;
+    right: 75px;
+    top: -16px;
+  }
+
+ 
+  .c1 { top: 40px; left: 75%; animation: float1-mobile 7s ease-in-out infinite; }
+  .c2 { top: 90px; left: 8%; animation: float2-mobile 9s ease-in-out infinite; }
+  .c3 { top: 160px; left: 60%; animation: float1-mobile 10s ease-in-out infinite; }
+
+
+  @keyframes float1-mobile {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-18px); }
+  }
+  @keyframes float2-mobile {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(22px); }
+  }
+
+
+  .eyes {
+    bottom: 10px;
+    gap: 9px;
+  }
+  .eye {
+    width: 11px;
+    height: 11px;
+  }
+  .eye::before {
+    inset: 2px;
+  }
+  .eye i {
+    width: 4.5px;
+    height: 4.5px;
+    top: 4px;
+    left: 4px;
+  }
+
+
+  .moustache {
+    bottom: -12px;
+    width: 65px;
+  }
+  .smile {
+    bottom: -5px;
+    width: 45px;
+    transform: translateX(-50%) scale(0.55);
+  }
+
+
+  .cloud:hover .moustache {
+    transform: translateX(-50%) translateY(-12px);
+  }
+  .cloud:hover .smile {
+    transform: translateX(-50%) scale(0.85);
+  }
+  .cloud:hover .eyes {
+    transform: translateX(-50%) translateY(-10px);
+  }
+
+
+  .cloud {
+    max-width: 90vw;
+    left: clamp(5%, var(--original-left, 50%), 95%);
+  }
+  .c1 { --original-left: 75%; }
+  .c2 { --original-left: 8%; }
+  .c3 { --original-left: 60%; }
+}
+
+
+
 
 
 
