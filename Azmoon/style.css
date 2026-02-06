@@ -335,6 +335,11 @@ a {
   .bird {
     width: 60px;
     height: auto;
+    
+    animation:
+    bird-fly 5s linear infinite,
+    bird-wave 3s ease-in-out infinite,
+    bird-flap 0.4s steps(1) infinite;
   }
 
   .ship {
@@ -398,3 +403,4 @@ a {
     font-size: 20px;
   }
 }
+
