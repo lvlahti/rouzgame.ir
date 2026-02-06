@@ -12,17 +12,17 @@
 
 <body>
 
-  <!-- ابرها -->
+
   <div class="cloud c1">
     <div class="eyes">
       <span class="eye"><i></i></span>
       <span class="eye"><i></i></span>
     </div>
   
-    <!-- لبخند (زیر سیبیل مخفی) -->
+    
     <img class="smile" src="images/smile.png" alt="smile">
   
-    <!-- سیبیل -->
+
     <img class="moustache" src="images/moustache.png" alt="moustache">
   </div>
 
@@ -31,11 +31,10 @@
       <span class="eye"><i></i></span>
       <span class="eye"><i></i></span>
     </div>
-  
-    <!-- لبخند (زیر سیبیل مخفی) -->
+    
     <img class="smile" src="images/smile.png" alt="smile">
   
-    <!-- سیبیل -->
+
     <img class="moustache" src="images/moustache.png" alt="moustache">
   </div>
 
@@ -45,10 +44,9 @@
       <span class="eye"><i></i></span>
     </div>
   
-    <!-- لبخند (زیر سیبیل مخفی) -->
     <img class="smile" src="images/smile.png" alt="smile">
   
-    <!-- سیبیل -->
+
     <img class="moustache" src="images/moustache.png" alt="moustache">
   </div>
 
@@ -64,11 +62,10 @@
 
   </div>
 
-  <footer>موسسه فرهنگی روزبه</footer>
+  <footer></footer>
 
 
 
-      <!-- // درگ و دراپ ابر   -->
   <script>
     const clouds = document.querySelectorAll(".cloud");
     const initialPositions = new Map();
@@ -85,8 +82,8 @@
         offsetX = e.clientX - rect.left;
         offsetY = e.clientY - rect.top;
 
-        cloud.style.animation = "none"; // متوقف کردن شناور
-        cloud.style.transition = "none"; // خاموش کردن transition هنگام درگ
+        cloud.style.animation = "none";
+        cloud.style.transition = "none"; 
       });
     });
 
@@ -104,7 +101,6 @@
     document.addEventListener("mouseup", () => {
       if (!activeCloud) return;
 
-      // برگشت آرام به موقعیت اولیه
       const init = initialPositions.get(activeCloud);
       activeCloud.style.transition = "left 0.5s ease, top 0.5s ease";
       activeCloud.style.left = init.left + "px";
@@ -118,6 +114,7 @@
 
 </body>
 </html>
+
 
 
 
