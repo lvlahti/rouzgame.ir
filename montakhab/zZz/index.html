@@ -2,10 +2,11 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>zZz</title>
     <link rel="icon" type="image/svg" href="bg.svg">
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet">
 
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -13,13 +14,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             transition: background-image 0.8s ease-in-out;
-
             font-family: 'Vazirmatn', sans-serif;
+            overflow-x: hidden;
         }
 
         .text {
@@ -31,35 +31,57 @@
             border-radius: 14px;
             text-align: center;
             backdrop-filter: blur(4px);
+            max-width: 90%;
+            word-break: break-word;
+        }
+
+
+        @media (max-width: 768px) {
+            body {
+                background-position: left center !important;
+                background-attachment: fixed;
+            }
+            
+            .text {
+                font-size: 22px;
+                padding: 16px 25px;
+                margin: 0 15px;
+            }
+        }
+        
+        @media (max-width: 375px) {
+            .text {
+                font-size: 18px;
+                padding: 12px 20px;
+            }
         }
     </style>
 </head>
 <body>
-
     <div class="text">
         در انتظار نهایی شدن پروژه
     </div>
 
-<script>
-    const backgrounds = [
-        "bg1.svg",
-        "bg2.svg",
-        "bg3.svg",
-        "bg4.svg"
-    ];
+    <script>
+        const backgrounds = [
+            "bg1.svg",
+            "bg2.svg",
+            "bg3.svg",
+            "bg4.svg"
+        ];
 
-    let index = 0;
+        let index = 0;
 
-    function changeBackground() {
-        document.body.style.backgroundImage = `url('${backgrounds[index]}')`;
-        index = (index + 1) % backgrounds.length;
-    }
+        function changeBackground() {
+            document.body.style.backgroundImage = `url('${backgrounds[index]}')`;
+            index = (index + 1) % backgrounds.length;
+        }
 
-    changeBackground();
-    setInterval(changeBackground, 900);
-</script>
 
+        window.addEventListener('load', () => {
+            setTimeout(changeBackground, 300);
+            setInterval(changeBackground, 900);
+        });
+    </script>
 </body>
 </html>
-
-
