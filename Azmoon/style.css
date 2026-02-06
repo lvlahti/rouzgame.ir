@@ -267,10 +267,10 @@ a {
 
 .wave-container {
   position: fixed;
-  bottom: 0px;
+  bottom: -40px;
   left: 0;
   width: 100%;
-  height: 130px;
+  height: 220px;
   overflow: hidden;
   pointer-events: none;
 
@@ -280,7 +280,7 @@ a {
 
 .wave-wrapper {
   position: absolute;
-  bottom: -10;
+  bottom: 0;
   left: 0;
   display: flex;
   flex-wrap: nowrap;
@@ -331,6 +331,11 @@ a {
   .bird {
     width: 60px;
     height: auto;
+    
+    animation:
+      bird-fly 4s linear infinite,
+      bird-wave 3s ease-in-out infinite,
+      bird-flap 0.4s steps(1) infinite;
   }
 
   .ship {
@@ -393,32 +398,9 @@ a {
   h1 {
     font-size: 20px;
   }
-
-  .wave-container {
-  position: fixed;
-  bottom: -40px;
-  left: 0;
-  width: 100%;
-  height: 220px;
-  overflow: hidden;
-  pointer-events: none;
-  }
-
-  .back  { z-index: 1; }
-  .front { z-index: 3; }
-
-  .wave-wrapper {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    flex-wrap: nowrap;
-    width: max-content;
-  }
-
-  .wave {
-    width: 100vw;
-    flex: 0 0 100vw;
-    height: auto;
-  }
 }
+
+
+
+
+
