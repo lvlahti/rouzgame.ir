@@ -337,7 +337,7 @@ a {
     height: auto;
     
     animation:
-    bird-fly 5s linear infinite,
+    bird-fly 2s linear infinite,
     bird-wave 3s ease-in-out infinite,
     bird-flap 0.4s steps(1) infinite;
   }
@@ -403,4 +403,5 @@ a {
     font-size: 20px;
   }
 }
+
 
