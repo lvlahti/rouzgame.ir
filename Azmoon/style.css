@@ -102,10 +102,10 @@ body {
 
 @keyframes bird-fly {
   from {
-    left: -100px;
+    transform: translateX(-120px);
   }
   to {
-    left: 100%;
+    transform: translateX(110vw);
   }
 }
 
@@ -403,6 +403,7 @@ a {
     font-size: 20px;
   }
 }
+
 
 
 
