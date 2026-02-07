@@ -128,10 +128,10 @@ body {
 
 
 @keyframes bird-flap {
-  0%   { content: url("images/bird1.png"); }
-  25%  { content: url("images/bird2.png"); }
-  50%  { content: url("images/bird3.png"); }
-  75%  { content: url("images/bird2.png"); }
+  0%   { content: url("/assets/images/bird1.png"); }
+  25%  { content: url("/assets/images/bird2.png"); }
+  50%  { content: url("/assets/images/bird3.png"); }
+  75%  { content: url("/assets/images/bird2.png"); }
 }
 
 @keyframes bird-wave {
@@ -420,6 +420,7 @@ a {
     font-size: 20px;
   }
 }
+
 
 
 
