@@ -161,8 +161,8 @@ a { text-decoration: none; }
 
 .game-btn {
   background: white;
-  border-radius: 20px;
-  padding: 20px;
+  border-radius: 40px;
+  padding: 40px;
   text-align: center;
   font-size: 1.2rem;
   font-weight: bold;
@@ -231,6 +231,7 @@ footer {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #fff6a6;
 }
+
 
 
 
