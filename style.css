@@ -177,8 +177,8 @@ a { text-decoration: none; }
 }
 
 .game-btn img {
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
   object-fit: contain;
   margin-bottom: 12px;
 }
@@ -231,6 +231,7 @@ footer {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #fff6a6;
 }
+
 
 
 
