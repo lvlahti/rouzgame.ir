@@ -38,7 +38,7 @@ body {
 
 @keyframes fly {
   0%   { transform: translate(-150px,   0vh)    rotate(30deg); }
-  5%   { transform: translate(6vw,   -0.2vh) rotate(27deg); }
+  5%   { transform: translate(-100vw,   -0.2vh) rotate(27deg); }
   10%  { transform: translate(12vw,  -0.5vh) rotate(25deg); }
   15%  { transform: translate(18vw,  -1vh)   rotate(21deg); }
   20%  { transform: translate(24vw,  -1.5vh) rotate(18deg); }
@@ -373,6 +373,7 @@ footer {
   }
 
 }
+
 
 
 
