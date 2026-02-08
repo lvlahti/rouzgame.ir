@@ -1,80 +1,377 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
+* { box-sizing: border-box; }
+
+@font-face {
+  font-family: 'Minecraft';
+  src: url('assets/fonts/Minecraft.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Vazirmatn', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(circle at 10% 10%, #fff6a6 0 120px, transparent 121px),
+    radial-gradient(circle at 90% 20%, #ffd3e7 0 140px, transparent 141px),
+    radial-gradient(circle at 20% 90%, #c7f7ff 0 160px, transparent 161px),
+    linear-gradient(180deg, #b7ecff 0%, #d8fff0 60%, #fff5d6 100%);
+}
+
+.lvlahti {
+  position: absolute;
+  width: 80px;
+  left: 0px;
+  top: 60%;
+  overflow-x: hidden;
+  animation: fly 3s linear forwards; animation-delay: 1s;
+  z-index: 1;
+}
+
+@keyframes fly {
+  0%   { transform: translate(-150px,   0vh)    rotate(30deg); }
+  5%   { transform: translate(6vw,   -0.2vh) rotate(27deg); }
+  10%  { transform: translate(12vw,  -0.5vh) rotate(25deg); }
+  15%  { transform: translate(18vw,  -1vh)   rotate(21deg); }
+  20%  { transform: translate(24vw,  -1.5vh) rotate(18deg); }
+  25%  { transform: translate(30vw,  -2.2vh) rotate(14deg); }
+
+  /* وسط مسیر – صاف */
+  30%  { transform: translate(36vw,  -3vh)   rotate(10deg); }
+  35%  { transform: translate(42vw,  -4vh)   rotate(7deg); }
+  40%  { transform: translate(48vw,  -5.5vh) rotate(3deg); }
+  45%  { transform: translate(54vw,  -7vh)   rotate(0deg); }
+
+  /* اوج گرفتن – رو به بالا */
+  50%  { transform: translate(60vw,  -8.5vh) rotate(-4deg); }
+  55%  { transform: translate(66vw,  -10vh)  rotate(-8deg); }
+  60%  { transform: translate(72vw,  -11.5vh) rotate(-12deg); }
+
+  65%  { transform: translate(78vw,  -13vh)  rotate(-16deg); }
+  70%  { transform: translate(84vw,  -14.5vh) rotate(-18deg); }
+  75%  { transform: translate(90vw,  -16vh)  rotate(-20deg); }
+
+  80%  { transform: translate(96vw,  -17vh)  rotate(-22deg); }
+  85%  { transform: translate(102vw, -18vh)  rotate(-24deg); }
+  90%  { transform: translate(108vw, -19vh)  rotate(-26deg); }
+
+  95%  { transform: translate(112vw, -20vh)  rotate(-28deg); }
+  100% { transform: translate(115vw, -20vh)  rotate(-30deg); }
+}
+
+
+.cloud {
+  position: absolute;
+  width: 220px;
+  height: 70px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 999px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  background: rgba(255,255,255,0.9);
+  border-radius: 999px;
+}
+
+.cloud::before {
+  width: 90px;
+  height: 90px;
+  right: 30px;
+  top: -35px;
+}
+
+.cloud::after {
+  width: 70px;
+  height: 70px;
+  right: 120px;
+  top: -25px;
+}
+
+.c1 { top: 70px; right: 6%; animation: float1 8s ease-in-out infinite; }
+.c2 { top: 160px; left: 8%; animation: float2 10s ease-in-out infinite; }
+.c3 { top: 260px; right: 18%; animation: float1 12s ease-in-out infinite; }
+
+@keyframes float1 {
+  0%,100% { transform: translateX(0); }
+  50% { transform: translateX(-30px); }
+}
+
+@keyframes float2 {
+  0%,100% { transform: translateX(0); }
+  50% { transform: translateX(35px); }
+}
+
+.eyes {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 2;
+}
+
+.eye {
+  width: 60px;
+  height: 60px;
+  background: #fff;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eye::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+  position: absolute;
+}
+
+.eye i {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #222;
+  border-radius: 50%;
+  transition: transform 0.05s linear;
+}
+
+.eye {
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.eye i {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  background: #333;
+  border-radius: 50%;
+  top: 5px;
+  left: 5px;
+  transition: transform 0.05s linear;
+}
+
+.eye::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 50%;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.1s ease-in-out;
+}
+
+.eye.blink::after {
+  transform: scaleY(1);
+}
+
+
+.games {
+  position: relative;;
+  display: grid;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-inline: auto;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 600px;
+  z-index: 3;
+}
+
+.featured {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+}
+
+a { text-decoration: none; }
+
+.game-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border-radius: 40px;
+  padding: 40px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-family: 'Minecraft';
   
-  <meta name="description" content="بستر آموزش رایانه برای دانش‌آموزان ابتدایی با تمرکز بر آموزش اسکرچ، ساخت بازی، تقویت خلاقیت و یادگیری مفاهیم پایه برنامه‌نویسی به‌صورت عملی و جذاب">
-  <meta charset="UTF-8">
-  <title>روزگیم</title>
-  <link rel="icon" type="image/png" href="logo.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+}
 
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-</head>
+.game-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
 
-<img src="assets/images/lvlahti.png" class="lvlahti">
+.game-btn img {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
 
-<body>
+  .footer-link {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+  }
 
-<img src="images/poshtabr01.png" class="behind-cloud" style="display:none;">
-<img src="images/poshtabr02.png" class="behind-cloud" style="display:none;">
+.raindrop {
+  position: absolute;
+  width: 4px;
+  height: 10px;
+  background: #4da6ff;
+  border-radius: 50%;
+  opacity: 0.7;
+  pointer-events: none;
+  animation: fall 1s linear forwards;
+}
 
 
-  <div class="cloud c1">
-    <div class="eyes">
-      <span class="eye"><i></i></span>
-      <span class="eye"><i></i></span>
-    </div>
-  </div>
 
-  <div class="cloud c2">
-    <div class="eyes">
-      <span class="eye"><i></i></span>
-      <span class="eye"><i></i></span>
-    </div>
-  </div>
 
-  <div class="cloud c3">
-    <div class="eyes">
-      <span class="eye"><i></i></span>
-      <span class="eye"><i></i></span>
-    </div>
-  </div>
 
-  <h1> </h1>
+@keyframes fall {
+  0% { transform: translateY(0); opacity: 0.7; }
+  80% { opacity: 0.7; }
+  100% { transform: translateY(300px); opacity: 0; }
+}
 
-  <div class="games">
+footer {
+  margin-top: 40px;
+  font-size: 0.9rem;
+  color: #555;
+  z-index: 2;
+}
 
-    <a href="Scratch">
-      <div class="game-btn">
-        <img src="assets/images/scratch.png" alt="Azmoon">
-        Scratch 
-      </div>
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffd3e7;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c7f7ff;
+  border-radius: 10px; 
+  border: 3px solid #f0f0f0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #fff6a6;
+}
+
+@media (max-width: 768px) {
+
+
+  .lvlahti {
+    position: absolute;
+    width: 30px;
+    left: 0px;
+    top: 60%;
+    overflow-x: hidden;
+    animation: fly 3s linear forwards; animation-delay: 1s;
+    z-index: 1;
+  }
+
+  .games {
+    position: relative;;
+    display: grid;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-inline: auto;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    width: 20%;
+    max-width: 600px;
+    z-index: 2;
+  }
+
+  .game-btn img {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 60%;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 12px;
+  }
+
+  .game-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-family: 'Minecraft';
     
+  }
 
-    <a href="Minecraft">
-      <div class="game-btn">
-        <img src="assets/images/minecraft.png" alt="Montakhab">
-        Minecraft
-      </div>
-    </a>
+  .cloud {
+    width: 35vw;
+    height: 11vw;
+  }
 
-  </div>
+  .cloud::before {
+    width: 14vw;
+    height: 14vw;
+    right: 5vw;
+    top: -6vw;
+  }
 
-  <footer>
-  <a href="https://rouzbeh.info" class="footer-link"></a>
-  </footer>
+  .cloud::after {
+    width: 11vw;
+    height: 11vw;
+    right: 18vw;
+    top: -5vw;
+  }
 
-
-
-<script src="main.js"></script>
-
-
-
-</body>
-</html>
-
-
+}
 
 
 
