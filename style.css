@@ -27,6 +27,7 @@ body {
 
 .lvlahti {
   position: absolute;
+  pointer-events: none;
   width: 80px;
   left: 0px;
   top: 60%;
@@ -372,6 +373,7 @@ footer {
   }
 
 }
+
 
 
 
