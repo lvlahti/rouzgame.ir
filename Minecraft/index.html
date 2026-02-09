@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>montakhab</title>
+  <link rel="icon" type="image/png" href="/assets/images/logo-montakhab.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+  <div class="cloud c1">
+    <div class="eyes eyes-c1 eyes-set-1">
+      <span class="eye"><i></i></span>
+      <span class="eye"><i></i></span>
+    </div>
+  
+    <div class="eyes eyes-c1 eyes-set-2">
+      <span class="eye"><i></i></span>
+      <span class="eye"><i></i></span>
+    </div>
+  </div>
+  
+  <div class="cloud c2">
+    <div class="eyes eyes-c2">
+      <span class="eye"><i></i></span>
+      <span class="eye"><i></i></span>
+    </div>
+  </div>
+  
+  <div class="cloud c3">
+    <div class="eyes eyes-c3">
+      <span class="eye"><i></i></span>
+      <span class="eye"><i></i></span>
+    </div>
+  </div>
+
+  <h1></h1>
+
+  <footer></footer>
+
+
+
+  <script>
+    const clouds = document.querySelectorAll(".cloud");
+    const initialPositions = new Map();
+
+    clouds.forEach(cloud => {
+      const rect = cloud.getBoundingClientRect();
+      initialPositions.set(cloud, { top: rect.top, left: rect.left });
+
+      cloud.addEventListener("mousedown", e => {
+        activeCloud = cloud;
+
+        const rect = cloud.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+
+        cloud.style.animation = "none";
+        cloud.style.transition = "none"; 
+      });
+    });
+
+    let activeCloud = null;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    document.addEventListener("mousemove", e => {
+      if (!activeCloud) return;
+
+      activeCloud.style.left = (e.clientX - offsetX) + "px";
+      activeCloud.style.top  = (e.clientY - offsetY) + "px";
+    });
+
+    document.addEventListener("mouseup", () => {
+      if (!activeCloud) return;
+
+      const init = initialPositions.get(activeCloud);
+      activeCloud.style.transition = "left 0.5s ease, top 0.5s ease";
+      activeCloud.style.left = init.left + "px";
+      activeCloud.style.top  = init.top + "px";
+
+      activeCloud = null;
+    });
+</script>
+<script src="main.js"></script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
