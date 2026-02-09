@@ -206,6 +206,81 @@ footer {
   background-color: #fff6a6;
 }
 
+@media (max-width: 768px) {
+
+  body {
+    padding: 10px;
+  }
+
+
+  .cloud {
+    height: 120px;
+  }
+
+  .c1 {
+    width: 200px;
+    top: 40px;
+    left: 20%;
+    transform: translateX(-50%);
+  }
+
+  .c2 {
+    width: 150px;
+    top: 150px;
+    left: 0%;
+  }
+
+  .c3 {
+    width: 180px;
+    top: 230px;
+    left: 55%;
+  }
+
+  .eyes {
+    gap: 10px;
+  }
+
+  .eye {
+    width: 14px;
+    height: 14px;
+  }
+
+  .eye i {
+    width: 7px;
+    height: 7px;
+    top: 4px;
+    left: 4px;
+  }
+
+  .c1 .eyes-set-1 {
+    bottom: 55px;
+    left: 30%;
+  }
+
+  .c1 .eyes-set-2 {
+    bottom: 55px;
+    left: 70%;
+  }
+
+  .eyes-c2 {
+    bottom: 50px;
+    left: 42%;
+  }
+
+  .eyes-c3 {
+    bottom: 55px;
+    left: 42%;
+  }
+
+  .smile {
+    width: 50px;
+    bottom: -4px;
+  }
+
+}
+
+
+
 
 
 
