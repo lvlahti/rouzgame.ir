@@ -34,9 +34,9 @@ body {
 
 
 
-.c1 { background-image: url("assets/images/cloudp1.png"); top: 70px; left: 84%; animation: float1 8s ease-in-out infinite; }
-.c2 { background-image: url("assets/images/cloudp2.png"); top: 160px; left: 8%; animation: float2 10s ease-in-out infinite; }
-.c3 { background-image: url("assets/images/cloudp3.png"); top: 260px; left: 70%; animation: float1 12s ease-in-out infinite; }
+.c1 { background-image: url("/assets/images/cloudp1.png"); top: 70px; left: 84%; animation: float1 8s ease-in-out infinite; }
+.c2 { background-image: url("/assets/images/cloudp2.png"); top: 160px; left: 8%; animation: float2 10s ease-in-out infinite; }
+.c3 { background-image: url("/assets/images/cloudp3.png"); top: 260px; left: 70%; animation: float1 12s ease-in-out infinite; }
 
 @keyframes float1 {
   0%,100% { transform: translateX(0); }
@@ -205,6 +205,7 @@ footer {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #fff6a6;
 }
+
 
 
 
