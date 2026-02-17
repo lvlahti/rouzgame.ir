@@ -139,6 +139,27 @@ body {
   opacity: 0.8;
 }
 
+.time {
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.time-green {
+  color: #2e7d32; /* سبز */
+}
+
+.time-orange {
+  color: #ef6c00; /* نارنجی */
+}
+
+.time-red {
+  color: #c62828; /* قرمز */
+}
+
+.time-infinity {
+  color: #1565c0; /* آبی */
+}
+
 
 @keyframes popIn {
   from {
@@ -150,6 +171,7 @@ body {
     opacity: 1;
   }
 }
+
 
 
 
