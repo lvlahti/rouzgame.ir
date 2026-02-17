@@ -127,6 +127,19 @@ body {
   image-rendering: pixelated;
 }
 
+.server-ip{
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 6px;
+}
+
+.player-tag .time {
+  font-weight: 700;
+  color: #444;
+  opacity: 0.8;
+}
+
+
 @keyframes popIn {
   from {
     transform: scale(0.8);
@@ -137,5 +150,6 @@ body {
     opacity: 1;
   }
 }
+
 
 
