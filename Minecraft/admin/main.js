@@ -1,4 +1,4 @@
-const apiUrl = "https://94.182.170.153:8123/status?key=abc123";
+const apiUrl = "http://94.182.170.153:8123/status?key=abc123";
 
 const statusDot = document.getElementById("statusDot");
 const serverStatus = document.getElementById("serverStatus");
@@ -72,4 +72,5 @@ async function loadServerStatus() {
 
 loadServerStatus();
 setInterval(loadServerStatus, 15000);
+
 
