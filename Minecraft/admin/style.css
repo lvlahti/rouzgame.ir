@@ -1,0 +1,141 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Vazirmatn', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(circle at 10% 10%, #fff6a6 0 120px, transparent 121px),
+    radial-gradient(circle at 90% 20%, #ffd3e7 0 140px, transparent 141px),
+    radial-gradient(circle at 20% 90%, #c7f7ff 0 160px, transparent 161px),
+    linear-gradient(180deg, #b7ecff 0%, #d8fff0 60%, #fff5d6 100%);
+}
+
+/* ===== ابرها ===== */
+
+.cloud {
+  position: absolute;
+  width: 220px;
+  height: 70px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 999px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+.c1 { top: 70px; right: 6%; }
+.c2 { top: 160px; left: 8%; }
+.c3 { top: 260px; right: 18%; }
+
+.games {
+  margin-top: 120px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 600px;
+  z-index: 2;
+}
+
+.game-btn {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.game-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+/* ===== بخش سرور ===== */
+
+.server-box {
+  grid-column: 1 / -1;
+}
+
+.server-status {
+  margin-top: 10px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: gray;
+}
+
+.status-online {
+  background: #4CAF50;
+  box-shadow: 0 0 10px #4CAF50;
+}
+
+.status-offline {
+  background: #f44336;
+  box-shadow: 0 0 10px #f44336;
+}
+
+.player-count {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.player-list {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.player-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #fff6a6, #c7f7ff);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  animation: popIn 0.3s ease;
+}
+
+.player-tag img {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  image-rendering: pixelated;
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
