@@ -1,78 +1,83 @@
-// const apiUrl = "http://94.182.170.153:8123/status?key=abc123";
-const apiUrl = "/mcapi/status";
+document.addEventListener("DOMContentLoaded", () => {
 
-const statusDot = document.getElementById("statusDot");
-const serverStatus = document.getElementById("serverStatus");
-const playerCount = document.getElementById("playerCount");
-const playerList = document.getElementById("playerList");
-
-function formatTime(min) {
-  if (min === -1) return "∞";
-  return `${min} دقیقه`;
-}
-
-function getTimeClass(min) {
-  if (min === -1) return "time-infinity";
-  if (min <= 5) return "time-red";
-  if (min <= 10) return "time-orange";
-  return "time-green";
-}
-
-async function loadServerStatus() {
-  try {
-    const response = await fetch(apiUrl, { cache: "no-store" });
-    const data = await response.json();
-
-    if (data.error) throw new Error(data.error);
-
-    statusDot.className = "status-dot status-online";
-    serverStatus.textContent = "سرور آنلاین است";
-
-    const players = data.players || [];
-    const online = players.length;
-    const max = data.max ?? "?";
-
-    playerCount.textContent = `👥 ${online} / ${max} بازیکن آنلاین`;
-    playerList.innerHTML = "";
-
-    if (players.length === 0) {
-      playerList.innerHTML = "فعلاً کسی داخل شهر نیست 🎈";
-      return;
-    }
-
-    players.forEach(p => {
-      const tag = document.createElement("div");
-      tag.className = "player-tag";
-
-      const avatar = document.createElement("img");
-      avatar.src = `https://mc-heads.net/avatar/${encodeURIComponent(p.name)}/32`;
-      avatar.alt = p.name;
-
-      const username = document.createElement("span");
-      username.textContent = p.name;
-
-      const time = document.createElement("span");
-      time.className = `time ${getTimeClass(p.minutesLeft)}`;
-      time.textContent = `— ${formatTime(p.minutesLeft)}`;
-
-      tag.appendChild(avatar);
-      tag.appendChild(username);
-      tag.appendChild(time);
-
-      playerList.appendChild(tag);
+  document.addEventListener("mousemove", e => {
+    document.querySelectorAll(".eye").forEach(eye => {
+      const pupil = eye.querySelector("i");
+      const rect = eye.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      const angle = Math.atan2(e.clientY - y, e.clientX - x);
+      const max = 4;
+      pupil.style.transform =
+        `translate(${Math.cos(angle) * max}px, ${Math.sin(angle) * max}px)`;
     });
+  });
 
-  } catch (error) {
-    statusDot.className = "status-dot status-offline";
-    serverStatus.textContent = "سرور آفلاین / API در دسترس نیست";
-    playerCount.textContent = "";
-    playerList.innerHTML = "";
-    console.error(error);
+
+  const clouds = document.querySelectorAll(".cloud");
+  const initialPositions = new Map();
+  let activeCloud = null;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  clouds.forEach(cloud => {
+    const rect = cloud.getBoundingClientRect();
+    initialPositions.set(cloud, { top: rect.top, left: rect.left });
+
+    cloud.addEventListener("mousedown", e => {
+      activeCloud = cloud;
+      const rect = cloud.getBoundingClientRect();
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+      cloud.style.animation = "none";
+      cloud.style.transition = "none";
+    });
+  });
+
+  document.addEventListener("mousemove", e => {
+    if (!activeCloud) return;
+    activeCloud.style.left = (e.clientX - offsetX) + "px";
+    activeCloud.style.top  = (e.clientY - offsetY) + "px";
+  });
+
+  document.addEventListener("mouseup", () => {
+    if (!activeCloud) return;
+    const init = initialPositions.get(activeCloud);
+    activeCloud.style.transition = "left 0.5s ease, top 0.5s ease";
+    activeCloud.style.left = init.left + "px";
+    activeCloud.style.top  = init.top;
+    activeCloud = null;
+  });
+
+  function blinkCloudsRandomly() {
+    clouds.forEach(cloud => {
+      if (Math.random() < 0.1) {
+        const eyes = cloud.querySelectorAll(".eye");
+        eyes.forEach(eye => eye.classList.add("blink"));
+        setTimeout(() => eyes.forEach(eye => eye.classList.remove("blink")), 150);
+      }
+    });
   }
-}
 
-loadServerStatus();
-setInterval(loadServerStatus, 15000);
+  setInterval(blinkCloudsRandomly, 500 + Math.random() * 1000);
 
 
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
 
+  const gamesContainer = document.querySelector('.games');
+  if (gamesContainer) {
+    const buttons = Array.from(gamesContainer.children);
+    shuffle(buttons);
+
+    const fragment = document.createDocumentFragment();
+    buttons.forEach(btn => fragment.appendChild(btn));
+    gamesContainer.innerHTML = '';
+    gamesContainer.appendChild(fragment);
+  }
+
+});
