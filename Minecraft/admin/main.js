@@ -247,7 +247,7 @@ function showToast(message){
 
 if (serverIpEl) {
   serverIpEl.addEventListener("click", async () => {
-    const ip = serverIpEl.textContent.trim();
+    const ip = serverIpEl.querySelector(".ip-text").textContent.trim();
 
     try {
       await navigator.clipboard.writeText(ip);
@@ -257,6 +257,7 @@ if (serverIpEl) {
     }
   });
 }
+
 
 
 
