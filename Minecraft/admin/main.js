@@ -167,8 +167,12 @@ async function loadServerStatus() {
       if (p?.name) knownPlayers[p.name] = now;
     });
     saveKnownPlayers(knownPlayers);
-
-    playerCount.textContent = `👥 ${online} شهروند داخل شهر حضور دارند `;
+    if (players.length === 0) {
+      playerCount.textContent = `👥 ${online} شهروند داخل شهر حضور دارد `;
+    }
+    if (players.length > 1) {
+      playerCount.textContent = `👥 ${online} شهروند داخل شهر حضور دارند `;
+    }
 
     playerList.innerHTML = "";
 
@@ -224,5 +228,6 @@ async function loadServerStatus() {
 syncOfflineUI();
 loadServerStatus();
 setInterval(loadServerStatus, 15000);
+
 
 
