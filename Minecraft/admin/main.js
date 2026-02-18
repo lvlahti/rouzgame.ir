@@ -233,6 +233,32 @@ syncOfflineUI();
 loadServerStatus();
 setInterval(loadServerStatus, 15000);
 
+const serverIpEl = document.getElementById("serverIp");
+const toast = document.getElementById("toast");
+
+function showToast(message){
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2000);
+}
+
+if (serverIpEl) {
+  serverIpEl.addEventListener("click", async () => {
+    const ip = serverIpEl.textContent.trim();
+
+    try {
+      await navigator.clipboard.writeText(ip);
+      showToast("✅ آی‌پی سرور کپی شد");
+    } catch (e) {
+      showToast("❌ کپی انجام نشد");
+    }
+  });
+}
+
+
 
 
 
