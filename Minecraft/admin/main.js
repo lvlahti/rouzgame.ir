@@ -79,7 +79,6 @@ function formatRelative(msAgo) {
 }
 
 function formatLastSeen(p) {
-  // اگر API شما چیزی مثل lastSeenMinutes بده
   if (typeof p.lastSeenMinutes === "number") return `${p.lastSeenMinutes} دقیقه پیش`;
   if (typeof p.lastSeenMin === "number") return `${p.lastSeenMin} دقیقه پیش`;
 
@@ -168,7 +167,6 @@ async function loadServerStatus() {
     });
     saveKnownPlayers(knownPlayers);
 
-    // playerCount.textContent = `👥 ${online} شهروند داخل شهر حضور دارد `;
     if (online === 0) {
       playerCount.textContent = `👥 هیچ شهروندی داخل شهر نیست`;
     } else if (online === 1) {
@@ -188,16 +186,13 @@ async function loadServerStatus() {
       });
     }
 
-    // رندر آفلاین‌ها (اگر toggle روشن باشد)
     if (offlineList) offlineList.innerHTML = "";
 
     if (showOffline) {
       const onlineSet = new Set(players.map(p => p.name));
 
-      // اول تلاش می‌کنیم از API بگیریم
       let offlinePlayers = normalizeOfflinePlayers(data);
 
-      // اگر API چیزی نداد، از knownPlayers مرورگر استفاده می‌کنیم
       if (!offlinePlayers || offlinePlayers.length === 0) {
         offlinePlayers = Object.entries(knownPlayers)
           .filter(([name]) => !onlineSet.has(name))
@@ -257,6 +252,7 @@ if (serverIpEl) {
     }
   });
 }
+
 
 
 
