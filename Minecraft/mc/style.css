@@ -1,0 +1,353 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Vazirmatn', sans-serif;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* ✅ محتوا بالای صفحه */
+
+  padding: 20px;
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(circle at 10% 10%, #fff6a6 0 120px, transparent 121px),
+    radial-gradient(circle at 90% 20%, #ffd3e7 0 140px, transparent 141px),
+    radial-gradient(circle at 20% 90%, #c7f7ff 0 160px, transparent 161px),
+    linear-gradient(180deg, #b7ecff 0%, #d8fff0 60%, #fff5d6 100%);
+}
+
+/* =======================
+   Clouds
+======================= */
+
+.cloud {
+  position: absolute;
+  width: 220px;
+  height: 70px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+.c1 { top: 70px; right: 6%; }
+.c2 { top: 160px; left: 8%; }
+.c3 { top: 260px; right: 18%; }
+
+/* =======================
+   Grid container
+======================= */
+
+.games {
+  margin-top: 20; /* ✅ نزدیک به بالای صفحه */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+
+  width: 100%;
+  max-width: 600px;
+  z-index: 2;
+}
+
+/* =======================
+   Cards / Buttons
+======================= */
+
+.game-btn {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.game-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.server-box,
+.players-box {
+  grid-column: 1 / -1;
+}
+
+/*
+.server-box {
+  position: sticky;
+  top: 15px;
+  z-index: 10;
+}
+*/
+
+.server-status {
+  margin-top: 30px;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: gray;
+}
+
+.status-online {
+  background: #4CAF50;
+  box-shadow: 0 0 10px #4CAF50;
+}
+
+.status-offline {
+  background: #f44336;
+  box-shadow: 0 0 10px #f44336;
+}
+
+.player-count {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.player-list {
+  margin-top: 15px;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.player-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  background: linear-gradient(135deg, #fff6a6, #c7f7ff);
+  padding: 6px 12px;
+  border-radius: 999px;
+
+  font-size: 0.8rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: popIn 0.3s ease;
+}
+
+.player-tag img {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  image-rendering: pixelated;
+}
+
+.server-ip {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 6px;
+}
+
+
+.player-tag .time {
+  font-weight: 700;
+  color: #444;
+  opacity: 0.8;
+}
+
+.time {
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.time-green {
+  color: #2e7d32;
+}
+
+.time-orange {
+  color: #ef6c00;
+}
+
+.time-red {
+  color: #c62828;
+}
+
+.time-infinity {
+  color: #1565c0;
+}
+
+
+@keyframes popIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.players-header{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.toggle-btn{
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+
+  padding: 10px 14px;
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, #c7f7ff, #fff6a6);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.toggle-btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 10px 18px rgba(0,0,0,0.14);
+}
+
+.toggle-btn:active{
+  transform: translateY(0);
+}
+
+.hidden{
+  display: none;
+}
+
+.offline-wrap{
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(0,0,0,0.18);
+}
+
+.offline-title{
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.player-tag.offline{
+  opacity: 0.65;
+  filter: grayscale(0.15);
+}
+
+.player-tag .last-seen{
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: #666;
+  opacity: 0.9;
+}
+
+.empty-offline{
+  font-size: 0.85rem;
+  color: #777;
+  font-weight: 700;
+  padding: 8px 0;
+}
+
+/* IP clickable */
+.server-ip{
+  margin-top: 6px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1565c0;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s, transform 0.1s;
+}
+
+.server-ip:hover{
+  color: #0d47a1;
+  text-decoration: underline;
+}
+
+.server-ip:active{
+  transform: scale(0.97);
+}
+
+/* Toast message */
+.toast{
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #2e7d32;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 999;
+}
+
+.toast.show{
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.ip-btn{
+  margin: 8px auto 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 0;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #fff6a6, #c7f7ff);
+  color: #333;
+
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.9rem;
+
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ip-btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.ip-btn:active{
+  transform: translateY(0);
+}
+
+.ip-icon{
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+
+
+
+
+
+
