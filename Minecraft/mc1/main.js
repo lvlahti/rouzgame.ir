@@ -1,4 +1,4 @@
-const SERVER_IP = "play.example.com:25565";
+const SERVER_IP = "94.182.170.153:25575";
 
 // گزینه 1: mcstatus.io
 const apiUrl = `https://api.mcstatus.io/v2/status/java/${encodeURIComponent(SERVER_IP)}`;
@@ -68,3 +68,4 @@ async function loadServerStatus() {
 
 loadServerStatus();
 setInterval(loadServerStatus, 15000);
+
