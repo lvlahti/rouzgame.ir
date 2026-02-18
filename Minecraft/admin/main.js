@@ -167,12 +167,16 @@ async function loadServerStatus() {
       if (p?.name) knownPlayers[p.name] = now;
     });
     saveKnownPlayers(knownPlayers);
-    if (players.length === 0) {
-      playerCount.textContent = `👥 ${online} شهروند داخل شهر حضور دارد `;
+
+    // playerCount.textContent = `👥 ${online} شهروند داخل شهر حضور دارد `;
+    if (online === 0) {
+      playerCount.textContent = `👥 هیچ شهروندی داخل شهر نیست`;
+    } else if (online === 1) {
+      playerCount.textContent = `👥 ۱ شهروند داخل شهر حضور دارد`;
+    } else {
+      playerCount.textContent = `👥 ${online} شهروند داخل شهر حضور دارند`;
     }
-    if (players.length > 1) {
-      playerCount.textContent = `👥 ${online} شهروند داخل شهر حضور دارند `;
-    }
+    
 
     playerList.innerHTML = "";
 
@@ -228,6 +232,7 @@ async function loadServerStatus() {
 syncOfflineUI();
 loadServerStatus();
 setInterval(loadServerStatus, 15000);
+
 
 
 
