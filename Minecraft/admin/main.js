@@ -171,7 +171,7 @@ async function loadServerStatus() {
     saveKnownPlayers(knownPlayers);
 
     // رندر آنلاین‌ها
-    playerCount.textContent = `👥 شهروند داخل شهر هستند ${online} `;
+    playerCount.textContent = `👥 ${online} شهروند داخل شهر هستند `;
     // playerCount.textContent = `👥 ${online} / ${max} بازیکن آنلاین`;
     playerList.innerHTML = "";
 
@@ -227,3 +227,4 @@ async function loadServerStatus() {
 syncOfflineUI();
 loadServerStatus();
 setInterval(loadServerStatus, 15000);
+
