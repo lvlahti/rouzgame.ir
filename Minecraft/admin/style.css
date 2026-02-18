@@ -16,9 +16,9 @@ body {
   overflow-x: hidden;
 
   background:
-    radial-gradient(circle at 10% 10%, #fff6a6 0 120px, transparent 121px),
-    radial-gradient(circle at 90% 20%, #ffd3e7 0 140px, transparent 141px),
-    radial-gradient(circle at 20% 90%, #c7f7ff 0 160px, transparent 161px),
+    linear-gradient(#fff6a6 0 0) 10% 10% / 240px 240px no-repeat,
+    linear-gradient(#ffd3e7 0 0) 90% 20% / 280px 280px no-repeat,
+    linear-gradient(#c7f7ff 0 0) 20% 90% / 320px 320px no-repeat,
     linear-gradient(180deg, #b7ecff 0%, #d8fff0 60%, #fff5d6 100%);
 }
 
@@ -308,5 +308,6 @@ body {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+
 
 
