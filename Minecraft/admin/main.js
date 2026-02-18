@@ -36,7 +36,7 @@ let showOffline = localStorage.getItem("showOffline") === "1";
 function syncOfflineUI() {
   if (!toggleOfflineBtn) return;
 
-  toggleOfflineBtn.textContent = showOffline ? "مخفی کردن آفلاین‌ها" : "لیست شهروندان آنلاین";
+  toggleOfflineBtn.textContent = showOffline ? "لیست شهروندان آنلاین و آفلاین" : "لیست شهروندان آنلاین";
   if (offlineWrap) offlineWrap.classList.toggle("hidden", !showOffline);
 }
 
@@ -257,6 +257,7 @@ if (serverIpEl) {
     }
   });
 }
+
 
 
 
