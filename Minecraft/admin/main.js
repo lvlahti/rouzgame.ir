@@ -1,83 +1,229 @@
-document.addEventListener("DOMContentLoaded", () => {
+// const apiUrl = "http://94.182.170.153:8123/status?key=abc123";
+const apiUrl = "/mcapi/status";
 
-  document.addEventListener("mousemove", e => {
-    document.querySelectorAll(".eye").forEach(eye => {
-      const pupil = eye.querySelector("i");
-      const rect = eye.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const y = rect.top + rect.height / 2;
-      const angle = Math.atan2(e.clientY - y, e.clientX - x);
-      const max = 4;
-      pupil.style.transform =
-        `translate(${Math.cos(angle) * max}px, ${Math.sin(angle) * max}px)`;
-    });
+const statusDot = document.getElementById("statusDot");
+const serverStatus = document.getElementById("serverStatus");
+const playerCount = document.getElementById("playerCount");
+const playerList = document.getElementById("playerList");
+
+const toggleOfflineBtn = document.getElementById("toggleOfflineBtn");
+const offlineWrap = document.getElementById("offlineWrap");
+const offlineList = document.getElementById("offlineList");
+
+// --- تنظیمات ذخیره در مرورگر برای آفلاین‌ها (fallback) ---
+const KNOWN_KEY = "knownPlayers_v1";
+
+function loadKnownPlayers() {
+  try {
+    const raw = localStorage.getItem(KNOWN_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveKnownPlayers(obj) {
+  try {
+    localStorage.setItem(KNOWN_KEY, JSON.stringify(obj));
+  } catch {}
+}
+
+let knownPlayers = loadKnownPlayers();
+
+// --- Toggle آفلاین ---
+let showOffline = localStorage.getItem("showOffline") === "1";
+
+function syncOfflineUI() {
+  if (!toggleOfflineBtn) return;
+
+  toggleOfflineBtn.textContent = showOffline ? "مخفی کردن آفلاین‌ها" : "نمایش آفلاین‌ها";
+  if (offlineWrap) offlineWrap.classList.toggle("hidden", !showOffline);
+}
+
+if (toggleOfflineBtn) {
+  toggleOfflineBtn.addEventListener("click", () => {
+    showOffline = !showOffline;
+    localStorage.setItem("showOffline", showOffline ? "1" : "0");
+    syncOfflineUI();
+    loadServerStatus();
   });
+}
 
+// --- Helpers ---
+function formatTime(min) {
+  if (min === -1) return "∞";
+  if (typeof min !== "number") return "نامشخص";
+  return `${min} دقیقه`;
+}
 
-  const clouds = document.querySelectorAll(".cloud");
-  const initialPositions = new Map();
-  let activeCloud = null;
-  let offsetX = 0;
-  let offsetY = 0;
+function getTimeClass(min) {
+  if (min === -1) return "time-infinity";
+  if (typeof min !== "number") return "time-orange";
+  if (min <= 5) return "time-red";
+  if (min <= 10) return "time-orange";
+  return "time-green";
+}
 
-  clouds.forEach(cloud => {
-    const rect = cloud.getBoundingClientRect();
-    initialPositions.set(cloud, { top: rect.top, left: rect.left });
+function formatRelative(msAgo) {
+  const sec = Math.floor(msAgo / 1000);
+  if (sec < 30) return "چند ثانیه پیش";
 
-    cloud.addEventListener("mousedown", e => {
-      activeCloud = cloud;
-      const rect = cloud.getBoundingClientRect();
-      offsetX = e.clientX - rect.left;
-      offsetY = e.clientY - rect.top;
-      cloud.style.animation = "none";
-      cloud.style.transition = "none";
-    });
-  });
+  const min = Math.floor(sec / 60);
+  if (min < 60) return `${min} دقیقه پیش`;
 
-  document.addEventListener("mousemove", e => {
-    if (!activeCloud) return;
-    activeCloud.style.left = (e.clientX - offsetX) + "px";
-    activeCloud.style.top  = (e.clientY - offsetY) + "px";
-  });
+  const hour = Math.floor(min / 60);
+  if (hour < 24) return `${hour} ساعت پیش`;
 
-  document.addEventListener("mouseup", () => {
-    if (!activeCloud) return;
-    const init = initialPositions.get(activeCloud);
-    activeCloud.style.transition = "left 0.5s ease, top 0.5s ease";
-    activeCloud.style.left = init.left + "px";
-    activeCloud.style.top  = init.top;
-    activeCloud = null;
-  });
+  const day = Math.floor(hour / 24);
+  return `${day} روز پیش`;
+}
 
-  function blinkCloudsRandomly() {
-    clouds.forEach(cloud => {
-      if (Math.random() < 0.1) {
-        const eyes = cloud.querySelectorAll(".eye");
-        eyes.forEach(eye => eye.classList.add("blink"));
-        setTimeout(() => eyes.forEach(eye => eye.classList.remove("blink")), 150);
-      }
-    });
+function formatLastSeen(p) {
+  // اگر API شما چیزی مثل lastSeenMinutes بده
+  if (typeof p.lastSeenMinutes === "number") return `${p.lastSeenMinutes} دقیقه پیش`;
+  if (typeof p.lastSeenMin === "number") return `${p.lastSeenMin} دقیقه پیش`;
+
+  // اگر API زمان بده
+  if (p.lastSeenAt) {
+    const t = typeof p.lastSeenAt === "number" ? p.lastSeenAt : Date.parse(p.lastSeenAt);
+    if (!Number.isNaN(t)) return formatRelative(Date.now() - t);
   }
 
-  setInterval(blinkCloudsRandomly, 500 + Math.random() * 1000);
+  // اگر از fallback مرورگر باشه
+  if (typeof p._lastSeenAt === "number") {
+    return formatRelative(Date.now() - p._lastSeenAt);
+  }
 
+  return "نامشخص";
+}
 
-  function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
+function makePlayerTag(p, { offline = false } = {}) {
+  const tag = document.createElement("div");
+  tag.className = `player-tag${offline ? " offline" : ""}`;
+
+  const avatar = document.createElement("img");
+  avatar.src = `https://mc-heads.net/avatar/${encodeURIComponent(p.name)}/32`;
+  avatar.alt = p.name;
+
+  const username = document.createElement("span");
+  username.textContent = p.name;
+
+  tag.appendChild(avatar);
+  tag.appendChild(username);
+
+  if (!offline) {
+    const time = document.createElement("span");
+    time.className = `time ${getTimeClass(p.minutesLeft)}`;
+    time.textContent = `— ${formatTime(p.minutesLeft)}`;
+    tag.appendChild(time);
+  } else {
+    const lastSeen = document.createElement("span");
+    lastSeen.className = "last-seen";
+    lastSeen.textContent = `— آخرین حضور: ${formatLastSeen(p)}`;
+    tag.appendChild(lastSeen);
+  }
+
+  return tag;
+}
+
+function normalizeOfflinePlayers(data) {
+  // 1) اگر بک‌اند لیست آفلاین‌ها را می‌فرستد (چند اسم رایج را چک می‌کنیم)
+  let offline =
+    data.offlinePlayers ||
+    data.playersOffline ||
+    data.offline ||
+    data.offline_players ||
+    data.offlineUsers ||
+    [];
+
+  if (!Array.isArray(offline)) offline = [];
+
+  // 2) اگر بک‌اند allPlayers بده و online هم جدا باشه
+  if (offline.length === 0 && Array.isArray(data.allPlayers) && Array.isArray(data.players)) {
+    const onlineSet = new Set(data.players.map(p => p.name));
+    offline = data.allPlayers
+      .filter(p => p?.name && !onlineSet.has(p.name))
+      .map(p => ({ ...p }));
+  }
+
+  return offline;
+}
+
+async function loadServerStatus() {
+  try {
+    const response = await fetch(apiUrl, { cache: "no-store" });
+    const data = await response.json();
+
+    if (data.error) throw new Error(data.error);
+
+    statusDot.className = "status-dot status-online";
+    serverStatus.textContent = "سرور آنلاین است";
+
+    const players = Array.isArray(data.players) ? data.players : [];
+    const online = players.length;
+    const max = data.max ?? "?";
+
+    // ذخیره‌ی آخرین زمان مشاهده‌ی این پلیرها (fallback برای آفلاین‌ها)
+    const now = Date.now();
+    players.forEach(p => {
+      if (p?.name) knownPlayers[p.name] = now;
+    });
+    saveKnownPlayers(knownPlayers);
+
+    // رندر آنلاین‌ها
+    playerCount.textContent = `👥 شهروند داخل شهر هستند ${online} `;
+    // playerCount.textContent = `👥 ${online} / ${max} بازیکن آنلاین`;
+    playerList.innerHTML = "";
+
+    if (players.length === 0) {
+      playerList.innerHTML = "فعلاً کسی داخل شهر نیست 🎈";
+    } else {
+      players.forEach(p => {
+        if (p?.name) playerList.appendChild(makePlayerTag(p, { offline: false }));
+      });
     }
+
+    // رندر آفلاین‌ها (اگر toggle روشن باشد)
+    if (offlineList) offlineList.innerHTML = "";
+
+    if (showOffline) {
+      const onlineSet = new Set(players.map(p => p.name));
+
+      // اول تلاش می‌کنیم از API بگیریم
+      let offlinePlayers = normalizeOfflinePlayers(data);
+
+      // اگر API چیزی نداد، از knownPlayers مرورگر استفاده می‌کنیم
+      if (!offlinePlayers || offlinePlayers.length === 0) {
+        offlinePlayers = Object.entries(knownPlayers)
+          .filter(([name]) => !onlineSet.has(name))
+          .map(([name, lastSeenAt]) => ({
+            name,
+            _lastSeenAt: lastSeenAt
+          }));
+      }
+
+      if (!offlinePlayers || offlinePlayers.length === 0) {
+        if (offlineList) {
+          offlineList.innerHTML = `<div class="empty-offline">فعلاً آفلاینی برای نمایش نداریم.</div>`;
+        }
+      } else {
+        offlinePlayers.forEach(p => {
+          if (p?.name && offlineList) offlineList.appendChild(makePlayerTag(p, { offline: true }));
+        });
+      }
+    }
+
+  } catch (error) {
+    statusDot.className = "status-dot status-offline";
+    serverStatus.textContent = "سرور آفلاین / API در دسترس نیست";
+    playerCount.textContent = "";
+    playerList.innerHTML = "";
+    if (offlineList) offlineList.innerHTML = "";
+    console.error(error);
   }
+}
 
-  const gamesContainer = document.querySelector('.games');
-  if (gamesContainer) {
-    const buttons = Array.from(gamesContainer.children);
-    shuffle(buttons);
-
-    const fragment = document.createDocumentFragment();
-    buttons.forEach(btn => fragment.appendChild(btn));
-    gamesContainer.innerHTML = '';
-    gamesContainer.appendChild(fragment);
-  }
-
-});
+// شروع
+syncOfflineUI();
+loadServerStatus();
+setInterval(loadServerStatus, 15000);
