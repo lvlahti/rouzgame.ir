@@ -168,11 +168,11 @@ async function loadServerStatus() {
     saveKnownPlayers(knownPlayers);
 
     if (online === 0) {
-      playerCount.textContent = `👥 هیچ شهروندی داخل شهر نیست`;
+      playerCount.textContent = `هیچ شهروندی داخل شهر نیست`;
     } else if (online === 1) {
-      playerCount.textContent = `👥 ۱ شهروند داخل شهر حضور دارد`;
+      playerCount.textContent = `۱ شهروند داخل شهر حضور دارد`;
     } else {
-      playerCount.textContent = `👥 ${online} شهروند داخل شهر حضور دارند`;
+      playerCount.textContent = `${online} شهروند داخل شهر حضور دارند`;
     }
     
 
@@ -252,6 +252,7 @@ if (serverIpEl) {
     }
   });
 }
+
 
 
 
