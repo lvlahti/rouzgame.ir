@@ -265,3 +265,48 @@ body {
   padding: 8px 0;
 }
 
+/* IP clickable */
+.server-ip{
+  margin-top: 6px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1565c0;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s, transform 0.1s;
+}
+
+.server-ip:hover{
+  color: #0d47a1;
+  text-decoration: underline;
+}
+
+.server-ip:active{
+  transform: scale(0.97);
+}
+
+/* Toast message */
+.toast{
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #2e7d32;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 999;
+}
+
+.toast.show{
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+
