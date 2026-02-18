@@ -251,12 +251,13 @@ if (serverIpEl) {
 
     try {
       await navigator.clipboard.writeText(ip);
-      showToast("✅ آی‌پی سرور کپی شد");
+      showToast(" آی‌پی سرور کپی شد");
     } catch (e) {
       showToast("❌ کپی انجام نشد");
     }
   });
 }
+
 
 
 
