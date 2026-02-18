@@ -10,7 +10,7 @@ const toggleOfflineBtn = document.getElementById("toggleOfflineBtn");
 const offlineWrap = document.getElementById("offlineWrap");
 const offlineList = document.getElementById("offlineList");
 
-// --- تنظیمات ذخیره در مرورگر برای آفلاین‌ها (fallback) ---
+
 const KNOWN_KEY = "knownPlayers_v1";
 
 function loadKnownPlayers() {
@@ -30,7 +30,7 @@ function saveKnownPlayers(obj) {
 
 let knownPlayers = loadKnownPlayers();
 
-// --- Toggle آفلاین ---
+
 let showOffline = localStorage.getItem("showOffline") === "1";
 
 function syncOfflineUI() {
@@ -49,7 +49,7 @@ if (toggleOfflineBtn) {
   });
 }
 
-// --- Helpers ---
+
 function formatTime(min) {
   if (min === -1) return "∞";
   if (typeof min !== "number") return "نامشخص";
@@ -83,13 +83,13 @@ function formatLastSeen(p) {
   if (typeof p.lastSeenMinutes === "number") return `${p.lastSeenMinutes} دقیقه پیش`;
   if (typeof p.lastSeenMin === "number") return `${p.lastSeenMin} دقیقه پیش`;
 
-  // اگر API زمان بده
+
   if (p.lastSeenAt) {
     const t = typeof p.lastSeenAt === "number" ? p.lastSeenAt : Date.parse(p.lastSeenAt);
     if (!Number.isNaN(t)) return formatRelative(Date.now() - t);
   }
 
-  // اگر از fallback مرورگر باشه
+
   if (typeof p._lastSeenAt === "number") {
     return formatRelative(Date.now() - p._lastSeenAt);
   }
@@ -127,7 +127,7 @@ function makePlayerTag(p, { offline = false } = {}) {
 }
 
 function normalizeOfflinePlayers(data) {
-  // 1) اگر بک‌اند لیست آفلاین‌ها را می‌فرستد (چند اسم رایج را چک می‌کنیم)
+
   let offline =
     data.offlinePlayers ||
     data.playersOffline ||
@@ -138,7 +138,6 @@ function normalizeOfflinePlayers(data) {
 
   if (!Array.isArray(offline)) offline = [];
 
-  // 2) اگر بک‌اند allPlayers بده و online هم جدا باشه
   if (offline.length === 0 && Array.isArray(data.allPlayers) && Array.isArray(data.players)) {
     const onlineSet = new Set(data.players.map(p => p.name));
     offline = data.allPlayers
@@ -163,16 +162,14 @@ async function loadServerStatus() {
     const online = players.length;
     const max = data.max ?? "?";
 
-    // ذخیره‌ی آخرین زمان مشاهده‌ی این پلیرها (fallback برای آفلاین‌ها)
     const now = Date.now();
     players.forEach(p => {
       if (p?.name) knownPlayers[p.name] = now;
     });
     saveKnownPlayers(knownPlayers);
 
-    // رندر آنلاین‌ها
-    playerCount.textContent = `👥 ${online} شهروند داخل شهر هستند `;
-    // playerCount.textContent = `👥 ${online} / ${max} بازیکن آنلاین`;
+    playerCount.textContent = `👥 ${online} شهروند داخل شهر حضور دارند `;
+
     playerList.innerHTML = "";
 
     if (players.length === 0) {
@@ -227,4 +224,5 @@ async function loadServerStatus() {
 syncOfflineUI();
 loadServerStatus();
 setInterval(loadServerStatus, 15000);
+
 
