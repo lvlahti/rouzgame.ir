@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<!-- mahdi najian -->
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>بازی حافظه‌ی کلمات (کلاس اولی)</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1:#fff7d6;
+      --bg2:#e9f8ff;
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --shadow: 0 10px 30px rgba(0,0,0,.10);
+      --shadow2: 0 8px 18px rgba(0,0,0,.10);
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:"Vazirmatn", Tahoma, sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 800px at 20% 10%, var(--bg2), transparent 60%),
+        radial-gradient(900px 600px at 80% 30%, #ffe0f0, transparent 55%),
+        linear-gradient(180deg, var(--bg1), #ffffff 45%, #f6fff9);
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:18px;
+    }
+
+    .wrap{ width:min(980px, 100%); display:grid; gap:14px; }
+
+    header{
+      background:rgba(255,255,255,.78);
+      backdrop-filter: blur(8px);
+      border:1px solid rgba(0,0,0,.06);
+      border-radius:24px;
+      box-shadow: var(--shadow);
+      padding:14px 14px 10px;
+      position:sticky;
+      top:10px;
+      z-index:10;
+    }
+
+    .top{ display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+
+    .title{ display:flex; align-items:center; gap:12px; }
+    h1{
+      margin:0;
+      font-weight:900;
+      font-size: clamp(20px, 3vw, 28px);
+      letter-spacing:-.3px;
+    }
+    .sub{ margin:2px 0 0; color:var(--muted); font-size: 14px; }
+
+    .stats{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    .pill{
+      background:#fff;
+      border:1px solid rgba(0,0,0,.06);
+      border-radius:999px;
+      padding:8px 12px;
+      box-shadow: var(--shadow2);
+      display:flex;
+      gap:8px;
+      align-items:center;
+      font-weight:700;
+      font-size:14px;
+      min-height:38px;
+      user-select:none;
+    }
+    .pill b{ font-weight:900; }
+
+    .controls{
+      margin-top:10px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr auto;
+      gap:10px;
+      align-items:end;
+    }
+    @media (max-width: 860px){ .controls{ grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 520px){ .controls{ grid-template-columns: 1fr; } }
+
+    label{ display:block; font-weight:800; margin-bottom:6px; font-size:14px; }
+    input, select, button{
+      width:100%;
+      font-family:inherit;
+      font-size:16px;
+      border-radius:16px;
+      border:1px solid rgba(0,0,0,.10);
+      padding:12px 12px;
+      outline:none;
+      background:#fff;
+      box-shadow: 0 6px 14px rgba(0,0,0,.06);
+    }
+    input:focus, select:focus{
+      border-color: rgba(124,58,237,.45);
+      box-shadow: 0 0 0 4px rgba(124,58,237,.12), 0 6px 14px rgba(0,0,0,.06);
+    }
+
+    .btnRow{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; align-items:center; }
+    button{
+      cursor:pointer;
+      font-weight:900;
+      border:none;
+      background: linear-gradient(135deg, #7c3aed, #22c55e);
+      color:#fff;
+      box-shadow: 0 16px 30px rgba(34,197,94,.18), 0 16px 30px rgba(124,58,237,.18);
+      transition: transform .1s ease, box-shadow .2s ease, filter .2s ease;
+      min-height:44px;
+    }
+    button:hover{ filter: brightness(1.03); }
+    button:active{ transform: translateY(1px) scale(.99); }
+    button.secondary{
+      background:#fff; color:var(--ink);
+      border:1px solid rgba(0,0,0,.10);
+      box-shadow: var(--shadow2);
+    }
+
+    main{
+      background:rgba(255,255,255,.70);
+      backdrop-filter: blur(8px);
+      border:1px solid rgba(0,0,0,.06);
+      border-radius:24px;
+      box-shadow: var(--shadow);
+      padding:14px;
+    }
+
+    .hint{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      padding:10px 12px;
+      border-radius:18px;
+      background: linear-gradient(180deg, rgba(34,197,94,.09), rgba(124,58,237,.08));
+      border:1px solid rgba(0,0,0,.06);
+      margin-bottom:12px;
+    }
+    .hint p{ margin:0; font-size:15px; line-height:1.6; }
+    .kbd{
+      border:1px solid rgba(0,0,0,.12);
+      border-bottom-width:3px;
+      border-radius:10px;
+      padding:2px 8px;
+      background:#fff;
+      font-weight:900;
+      display:inline-block;
+      margin:0 2px;
+    }
+
+    .grid{
+      display:grid;
+      gap:12px;
+      justify-content:center;
+      align-items:center;
+      padding:6px;
+      --cell: 128px;
+      grid-template-columns: repeat(4, var(--cell));
+    }
+    @media (min-width: 920px){ .grid{ --cell: 140px; } }
+    @media (max-width: 680px){ .grid{ --cell: 110px; } }
+    @media (max-width: 520px){ .grid{ --cell: 96px; gap:10px; } }
+
+    .card{ width:var(--cell); height:var(--cell); perspective: 900px; user-select:none; padding:0; background:transparent; }
+    .inner{
+      width:100%; height:100%;
+      position:relative;
+      transform-style: preserve-3d;
+      transition: transform .45s cubic-bezier(.2,.8,.2,1);
+    }
+    .card.flipped .inner{ transform: rotateY(180deg); }
+    .face{
+      position:absolute; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      border-radius: 20px;
+      border:1px solid rgba(0,0,0,.07);
+      box-shadow: var(--shadow2);
+      backface-visibility: hidden;
+      overflow:hidden;
+    }
+    .front{ background: linear-gradient(135deg, rgba(236,72,153,.18), rgba(59,130,246,.18), rgba(34,197,94,.18), rgba(245,158,11,.18)); }
+    .front::after{
+      content:"";
+      position:absolute;
+      inset:-35%;
+      background:
+        radial-gradient(circle at 25% 30%, rgba(59,130,246,.25), transparent 55%),
+        radial-gradient(circle at 70% 25%, rgba(34,197,94,.25), transparent 58%),
+        radial-gradient(circle at 65% 75%, rgba(245,158,11,.22), transparent 55%),
+        radial-gradient(circle at 30% 75%, rgba(236,72,153,.22), transparent 55%);
+      transform: rotate(12deg);
+    }
+.back{
+      transform: rotateY(180deg);
+      background: linear-gradient(135deg, rgba(34,197,94,.18), rgba(59,130,246,.18));
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      padding:10px;
+      text-align:center;
+    }
+    .word{ font-weight:900; font-size: clamp(28px, 3.5vw, 36px); color:#000000; letter-spacing:-.3px; line-height:1.15; }
+        .matched .back{
+      background: linear-gradient(180deg, rgba(22,163,74,.14), rgba(34,197,94,.08));
+      border-color: rgba(22,163,74,.22);
+    }
+
+    .shake{ animation: shake .35s ease-in-out; }
+    @keyframes shake{
+      0%,100%{ transform: translateX(0); }
+      20%{ transform: translateX(-6px); }
+      40%{ transform: translateX(6px); }
+      60%{ transform: translateX(-4px); }
+      80%{ transform: translateX(4px); }
+    }
+
+    .banner{
+      margin-top:12px;
+      border-radius:20px;
+      padding:12px;
+      background:#fff;
+      border:1px dashed rgba(0,0,0,.18);
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .banner .msg{ font-weight:900; font-size:16px; }
+    .banner .tiny{ color:var(--muted); font-size:13px; font-weight:700; }
+    .progress{
+      width:220px; height:12px;
+      border-radius:999px;
+      background:rgba(0,0,0,.08);
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.06);
+    }
+    .bar{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, #22c55e, #7c3aed);
+      transition: width .3s ease;
+    }
+
+    .confetti{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index:999;
+    }
+    .confetti span{
+      position:absolute;
+      width:10px; height:14px;
+      border-radius:4px;
+      opacity:.95;
+      animation: fall 1100ms ease-out forwards;
+      box-shadow: 0 6px 14px rgba(0,0,0,.08);
+    }
+    @keyframes fall{
+      0%{ transform: translateY(-20px) rotate(0deg); }
+      100%{ transform: translateY(110vh) rotate(480deg); opacity:0; }
+    }
+
+    .sr-only{
+      position:absolute;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+  
+    header.collapsed{
+      padding:8px 14px;
+    }
+    header.collapsed .controls,
+    header.collapsed .sub{
+      display:none !important;
+    }
+    header.collapsed .stats{
+      margin-top:6px;
+    }
+
+  
+    header.collapsed #toggleSettings{
+      display:inline-flex !important;
+    }
+
+
+    .settingsBtn{
+      width:auto !important;
+      padding:8px 12px !important;
+      min-height:38px;
+      border-radius:999px !important;
+      border:1px solid rgba(0,0,0,.06) !important;
+      background:#fff !important;
+      color:var(--ink) !important;
+      box-shadow: var(--shadow2) !important;
+      font-weight:900;
+      font-size:14px;
+      cursor:pointer;
+    }
+    header.collapsed .settingsBtn{
+      display:inline-flex !important;
+    }
+
+
+    .gameLogo{ display:flex; align-items:center; }
+    .gameLogo img{ display:block;
+      height:48px;
+      object-fit:contain;
+    }
+    header.collapsed .gameLogo img{ display:block;
+      height:36px;
+    }
+
+</style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="top">
+
+        <div class="gameLogo">
+          <a href="https://rouzgame.ir" target="_blank" style="display:inline-block;"><img src="data:image/png;base64,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" alt="لوگو"></a>
+        </div>
+
+        <div class="title">
+          <div>
+            <h1>بازی حافظه‌ی کلمات</h1>
+            <div class="sub">برای کلاس اول • کارت‌ها را برگردان و جفت‌ها را پیدا کن</div>
+          </div>
+        </div>
+
+        <div class="stats" aria-live="polite">
+          <button id="toggleSettings" type="button" class="pill settingsBtn">تنظیمات</button>
+          <div class="pill" title="امتیاز">⭐ <span>امتیاز: <b id="score">0</b></span></div>
+          <div class="pill" title="تعداد حرکت‌ها">👣 <span>حرکت: <b id="moves">0</b></span></div>
+          <div class="pill" title="زمان">⏱️ <span>زمان: <b id="timer">00:00</b></span></div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div>
+          <label for="words">کلمات (هر تعداد خواستی، با ویرگول جدا کن)</label>
+          <input id="words" value="آب,بابا,سیب,نان,دانه" inputmode="text" />
+          <div class="sub" style="margin-top:6px;">مثال: <span class="kbd">آب,بابا,سیب,نان</span> • سختی خودکار از روی تعداد کلمه</div>
+        </div>
+<div>
+          <label for="showTime">زمانِ نمایشِ اول (ثانیه)</label>
+          <select id="showTime">
+            <option value="3">۳</option>
+            <option value="5" selected>۵</option>
+            <option value="7">۷</option>
+            <option value="10">۱۰</option>
+          </select>
+        </div>
+
+        <div class="btnRow">
+          <button id="startBtn" type="button">شروع بازی 🚀</button>
+          <button id="resetBtn" type="button" class="secondary" title="شروع دوباره">دوباره 🔁</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="hint">
+        <p>
+          ۱) اول همه‌ی کارت‌ها را خوب نگاه کن 👀<br>
+          ۲) بعد دو تا کارت را برگردان تا جفتشان را پیدا کنی ✨<br>
+          نکته: با کلید <span class="kbd">Space</span> هم می‌توانی شروع کنی.
+        </p>
+        <div class="tiny" id="status">برای شروع، «شروع بازی» را بزن.</div>
+        <span class="sr-only" id="announcer" aria-live="assertive"></span>
+      </div>
+
+      <div id="grid" class="grid" role="grid" aria-label="کارت‌ها"></div>
+
+      <div class="banner">
+        <div>
+          <div class="msg" id="bannerMsg">هدف: همه‌ی جفت‌ها را پیدا کن!</div>
+          <div class="tiny" id="bannerTiny">اگر اشتباه شد، ناراحت نشو؛ دوباره امتحان کن 😊</div>
+        </div>
+        <div>
+          <div class="progress" aria-label="پیشرفت"><div class="bar" id="bar"></div></div>
+          <div class="tiny" style="margin-top:8px; text-align:center;">پیشرفت: <b id="progressText">0%</b></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+<script>
+const el = (id)=>document.getElementById(id);
+
+let cards = [];
+let first = null;
+let lock = false;
+let matchedPairs = 0;
+let totalPairs = 0;
+let score = 0;
+let moves = 0;
+
+let timerInterval = null;
+let seconds = 0;
+let started = false;
+
+const grid = el("grid");
+const scoreEl = el("score");
+const movesEl = el("moves");
+const timerEl = el("timer");
+const statusEl = el("status");
+const announcer = el("announcer");
+const bar = el("bar");
+const progressText = el("progressText");
+const bannerMsg = el("bannerMsg");
+const bannerTiny = el("bannerTiny");
+
+function formatTime(s){
+  const m = Math.floor(s/60);
+  const r = s%60;
+  return String(m).padStart(2,"0") + ":" + String(r).padStart(2,"0");
+}
+
+/* Tiny sound using WebAudio (no sound files) */
+let audioCtx = null;
+function beep(type="click"){
+  try{
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.connect(g); g.connect(audioCtx.destination);
+
+    let f1=440, f2=660, dur=0.09;
+    if(type==="click"){ f1=520; f2=700; dur=0.06; }
+    if(type==="good"){ f1=660; f2=990; dur=0.11; }
+    if(type==="bad"){ f1=220; f2=180; dur=0.12; }
+    if(type==="win"){ f1=784; f2=1175; dur=0.18; }
+
+    const now = audioCtx.currentTime;
+    o.frequency.value = f1;
+    g.gain.value = 0.0001;
+
+    g.gain.exponentialRampToValueAtTime(0.18, now + 0.01);
+    o.frequency.exponentialRampToValueAtTime(f2, now + dur);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+
+    o.start(now);
+    o.stop(now + dur + 0.02);
+  }catch(e){}
+}
+
+/* Confetti */
+function burstConfetti(){
+  const root = el("confetti");
+  root.innerHTML = "";
+  const colors = ["#22c55e","#7c3aed","#f59e0b","#06b6d4","#ef4444","#10b981"];
+  const count = 80;
+  for(let i=0;i<count;i++){
+    const p = document.createElement("span");
+    const left = Math.random()*100;
+    const delay = Math.random()*140;
+    const size = 8 + Math.random()*10;
+    p.style.left = left + "vw";
+    p.style.top = (-10 - Math.random()*20) + "vh";
+    p.style.width = size + "px";
+    p.style.height = (size*1.3) + "px";
+    p.style.background = colors[Math.floor(Math.random()*colors.length)];
+    p.style.animationDelay = delay + "ms";
+    root.appendChild(p);
+  }
+  setTimeout(()=>root.innerHTML="", 1400);
+}
+
+/* Game setup */
+function computeGridColumns(pairs){
+  const n = pairs*2; // total cards
+  // choose columns close to sqrt for a balanced grid
+  let cols = Math.ceil(Math.sqrt(n));
+  // keep it reasonable for phones/desktop
+  cols = Math.max(4, Math.min(10, cols));
+  return cols;
+}
+function parseWords(){
+  const raw = el("words").value.split(",").map(s=>s.trim()).filter(Boolean);
+  const uniq = [];
+  for(const w of raw){ if(!uniq.includes(w)) uniq.push(w); }
+  return uniq;
+}
+// mahdi najian https://github.com/lvlahti
+function resetState(){
+    cards = [];
+  first = null;
+  lock = false;
+  matchedPairs = 0;
+  score = 0;
+  moves = 0;
+  seconds = 0;
+  started = false;
+  updateHUD();
+  stopTimer();
+  statusEl.textContent = "برای شروع، «شروع بازی» را بزن.";
+  bannerMsg.textContent = "هدف: همه‌ی جفت‌ها را پیدا کن!";
+  bannerTiny.textContent = "اگر اشتباه شد، ناراحت نشو؛ دوباره امتحان کن 😊";
+  announce("آماده‌ای؟ دکمه‌ی شروع را بزن.");
+}
+function announce(text){ announcer.textContent = text; }
+function updateHUD(){
+  scoreEl.textContent = String(score);
+  movesEl.textContent = String(moves);
+  timerEl.textContent = formatTime(seconds);
+  const pct = totalPairs ? Math.round((matchedPairs/totalPairs)*100) : 0;
+  bar.style.width = pct + "%";
+  progressText.textContent = pct + "%";
+}
+function startTimer(){
+  stopTimer();
+  timerInterval = setInterval(()=>{
+    seconds++;
+    timerEl.textContent = formatTime(seconds);
+  }, 1000);
+}
+function stopTimer(){
+  if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
+}
+function shuffle(a){
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+}
+function createDeck(words, pairs){
+  const picked = (words && words.length) ? words.slice(0, pairs) : ["کلمه۱"];
+  const deck = [];
+  for(let i=0;i<picked.length;i++){
+    const w = picked[i];
+    deck.push({word:w});
+    deck.push({word:w});
+  }
+  shuffle(deck);
+  return deck;
+}
+function setGridColumns(cols){
+  grid.style.gridTemplateColumns = "repeat(" + cols + ", var(--cell))";
+}
+function buildCards(deck){
+  grid.innerHTML = "";
+  cards = [];
+  deck.forEach((item, idx)=>{
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "card";
+    card.setAttribute("role","gridcell");
+    card.setAttribute("aria-label","کارت بسته");
+    card.dataset.word = item.word;
+    card.dataset.index = String(idx);
+
+    const inner = document.createElement("div");
+    inner.className = "inner";
+
+    const front = document.createElement("div");
+    front.className = "face front";
+const back = document.createElement("div");
+    back.className = "face back";
+    const word = document.createElement("div");
+    word.className = "word";
+    word.textContent = item.word;    back.appendChild(word);
+
+    inner.appendChild(front);
+    inner.appendChild(back);
+    card.appendChild(inner);
+
+    card.addEventListener("click", ()=>flip(card));
+    grid.appendChild(card);
+    cards.push(card);
+  });
+}
+function showAllThenHide(secondsToShow){
+  cards.forEach(c=>{
+    c.classList.add("flipped");
+    c.setAttribute("aria-label", "کارت باز: " + c.dataset.word);
+  });
+  statusEl.textContent = "همه‌ی کارت‌ها را نگاه کن 👀";
+  announce("همه‌ی کارت‌ها نمایش داده شد.");
+  setTimeout(()=>{
+    cards.forEach(c=>{
+      c.classList.remove("flipped");
+      c.setAttribute("aria-label", "کارت بسته");
+    });
+    statusEl.textContent = "حالا جفت‌ها را پیدا کن ✨";
+    announce("کارت‌ها بسته شد. شروع کن!");
+    started = true;
+    // bring board into view to avoid scrolling
+    document.getElementById("grid").scrollIntoView({behavior:"smooth", block:"start"});
+    startTimer();
+  }, secondsToShow*1000);
+}
+function startGame(){
+  resetState();
+document.querySelector("header").classList.add("collapsed");
+const words = parseWords();
+  totalPairs = Math.max(1, words.length);
+  const deck = createDeck(words, totalPairs);
+  bannerTiny.textContent = "تعداد جفت‌ها: " + totalPairs + " ✅";
+  setGridColumns(computeGridColumns(totalPairs));
+  buildCards(deck);
+  updateHUD();
+  beep("click");
+  const t = Number(el("showTime").value) || 5;
+  showAllThenHide(t);
+
+  // --- ensure preview works correctly ---
+  started = false;
+  showAllThenHide(t);
+  
+}
+function resetGame(){ beep("click"); document.querySelector("header").classList.remove("collapsed"); startGame(); }
+
+/* Gameplay */
+function flip(card){
+  if(lock) return;
+  if(card.classList.contains("matched")) return;
+  if(!started){ beep("click"); return; }
+  if(card.classList.contains("flipped")) return;
+
+  beep("click");
+  card.classList.add("flipped");
+  card.setAttribute("aria-label", "کارت باز: " + card.dataset.word);
+
+  if(!first){
+    first = card;
+    statusEl.textContent = "یک کارت دیگر انتخاب کن 😊";
+    return;
+  }
+
+  moves++;
+  updateHUD();
+  lock = true;
+
+  const same = first.dataset.word === card.dataset.word && first.dataset.index !== card.dataset.index;
+
+  if(same){
+    setTimeout(()=>{
+      first.classList.add("matched");
+      card.classList.add("matched");
+      matchedPairs++;
+      score++;
+
+      statusEl.textContent = "آفرین! درست پیدا کردی 🎉";
+      bannerMsg.textContent = "عالیییی! ادامه بده 💪";
+      bannerTiny.textContent = "تو داری خیلی خوب پیش می‌ری 😄";
+
+      beep("good");
+      first = null;
+      lock = false;
+      updateHUD();
+
+      if(matchedPairs === totalPairs) win();
+    }, 260);
+  }else{
+    statusEl.textContent = "اوه! این دو تا یکی نبودند 🙈";
+    bannerMsg.textContent = "اشکال نداره!";
+    bannerTiny.textContent = "دوباره امتحان کن 😊";
+    beep("bad");
+
+    first.classList.add("shake");
+    card.classList.add("shake");
+
+    setTimeout(()=>{
+      first.classList.remove("shake");
+      card.classList.remove("shake");
+      first.classList.remove("flipped");
+      card.classList.remove("flipped");
+      first.setAttribute("aria-label","کارت بسته");
+      card.setAttribute("aria-label","کارت بسته");
+      first = null;
+      lock = false;
+    }, 820);
+  }
+}
+function win(){
+  stopTimer();
+  started = false;
+  statusEl.textContent = "آفرین! همه‌ی جفت‌ها رو پیدا کردی 🌟";
+  bannerMsg.textContent = "تو برنده شدی! 🏆";
+  bannerTiny.textContent = "زمان تو: " + formatTime(seconds) + " • حرکت‌ها: " + moves;
+  beep("win");
+  burstConfetti();
+}
+
+/* Keyboard shortcuts */
+document.addEventListener("keydown", (e)=>{
+  if(e.code === "Space"){ e.preventDefault(); el("startBtn").click(); }
+  if(e.key && e.key.toLowerCase() === "r"){ e.preventDefault(); el("resetBtn").click(); }
+});
+
+/* Wire UI */
+el("startBtn").addEventListener("click", startGame);
+el("resetBtn").addEventListener("click", resetGame);
+
+// Toggle settings panel
+document.getElementById("toggleSettings").addEventListener("click", function(){
+  const header = document.querySelector("header");
+  header.classList.toggle("collapsed");
+});
+
+
+// Toggle settings panel (open/close header)
+document.getElementById("toggleSettings").addEventListener("click", function(){
+  const header = document.querySelector("header");
+  header.classList.toggle("collapsed");
+});
+
+
+// Settings toggle (single, robust)
+window.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("toggleSettings");
+  const header = document.querySelector("header");
+  if(!btn || !header) return;
+  btn.onclick = (e) => {
+    e.preventDefault();
+    header.classList.toggle("collapsed");
+  };
+});
+
+resetState();
+</script>
+</body>
+</html>
