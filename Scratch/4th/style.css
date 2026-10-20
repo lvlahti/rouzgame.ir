@@ -17,14 +17,6 @@ body {
     radial-gradient(circle at 20% 90%, #c7f7ff 0 160px, transparent 161px),
     linear-gradient(180deg, #b7ecff 0%, #d8fff0 60%, #fff5d6 100%);
 }
-@font-face {
-  font-family: "SiteFont";
-  src: url("/assets/fonts/main-font/site-font.woff2") format("woff2"),
-       url("/assets/fonts/main-font/site-font.woff") format("woff");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
 
 
 .back-btn {
