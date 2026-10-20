@@ -36,6 +36,29 @@ body {
   z-index: 1;
 }
 
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/assets/fonts/Vazirmatn/Vazirmatn-Regular.woff2') format('woff2'),
+       url('/assets/fonts/Vazirmatn/Vazirmatn-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/assets/fonts/Vazirmatn/Vazirmatn-Bold.woff2') format('woff2'),
+       url('/assets/fonts/Vazirmatn/Vazirmatn-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* استفاده در کل سایت */
+body {
+  font-family: 'Vazirmatn', sans-serif;
+}
+
+
 @keyframes fly {
   0%   { transform: translate(-150px,   0vh)    rotate(30deg); }
   5%   { transform: translate(0vw,   -0.2vh) rotate(27deg); }

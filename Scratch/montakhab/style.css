@@ -5,7 +5,7 @@
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: 'Vazirmatn', sans-serif;
+  font-family: "SiteFont", sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -89,6 +89,15 @@ body {
 @keyframes float2 {
   0%,100% { transform: translateX(0); }
   50% { transform: translateX(35px); }
+}
+
+@font-face {
+  font-family: "SiteFont";
+  src: url("/assets/fonts/main-font/site-font.woff2") format("woff2"),
+       url("/assets/fonts/main-font/site-font.woff") format("woff");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
 }
 
 .eyes {

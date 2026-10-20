@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <a href="../" class="back-btn">بازگشت</a>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>گالری تصاویر سرور ماینکرفت</title>
+    <div class="bubbles">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    <style>
+        body {
+            background-color: #222222;
+            color: #ffffff;
+            font-family: "SiteFont", sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            border-bottom: 4px solid #5e5e5e00;
+            padding-bottom: 10px;
+            text-shadow: 2px 2px rgba(74, 77, 73, 0.678)
+        }
+
+
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 30px;
+        }
+
+        .photo-card {
+            position: relative;
+            overflow: hidden;
+            border: 4px solid #3c3c3c;
+            background: #2a2a2a;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+            aspect-ratio: 16/9;
+        }
+
+        .photo-card:hover {
+            transform: scale(1.02);
+            border-color: rgba(255, 218, 50, 0.959);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+
+        #lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+        }
+
+        #lightbox img {
+            max-width: 90%;
+            max-height: 85%;
+            border: 5px solid #383838;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+
+        .nav-btn {
+            position: absolute;
+            background: #3c3c3c;
+            border-radius: 30%;
+            color: white;
+            border: 3px solid #000;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .nav-btn:hover { background: #555; border-color: #ffffffc0; }
+        .close-btn { top: 20px; right: 20px; background: #aa0000; }
+        .prev-btn { right: 20px; }
+        .next-btn { left: 20px; }
+
+        .caption {
+            position: absolute;
+            bottom: 20px;
+            background: rgba(0,0,0,0.7);
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #3c3c3c;
+            backdrop-filter: blur(6px);
+            padding: 10px 18px;
+            border-radius: 999px;
+            text-decoration: none;
+            color: rgba(255,255,255,0.85);
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            z-index: 10;
+        }
+        
+        @font-face {
+            font-family: "SiteFont";
+            src: url("/assets/fonts/main-font/site-font.woff2") format("woff2"),
+                 url("/assets/fonts/main-font/site-font.woff") format("woff");
+            font-weight: 100 900;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        .bubbles {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            }
+
+            /* bubble style */
+        .bubbles span {
+            position: absolute;
+            bottom: -50px;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: rise 5s linear infinite;
+            }
+
+            /* random sizes + random positions + random delays */
+        .bubbles span:nth-child(1) { left: 10%; width: 12px; height: 12px; animation-delay: 0s; }
+        .bubbles span:nth-child(2) { left: 20%; width: 20px; height: 20px; animation-delay: 1s; }
+        .bubbles span:nth-child(3) { left: 30%; width: 8px; height: 8px; animation-delay: 2s; }
+        .bubbles span:nth-child(4) { left: 40%; width: 15px; height: 15px; animation-delay: 1.5s; }
+        .bubbles span:nth-child(5) { left: 50%; width: 25px; height: 25px; animation-delay: 0.5s; }
+        .bubbles span:nth-child(6) { left: 60%; width: 10px; height: 10px; animation-delay: 2.3s; }
+        .bubbles span:nth-child(7) { left: 70%; width: 18px; height: 18px; animation-delay: 1.2s; }
+        .bubbles span:nth-child(8) { left: 80%; width: 22px; height: 22px; animation-delay: 2.6s; }
+        .bubbles span:nth-child(9) { left: 90%; width: 14px; height: 14px; animation-delay: 0.8s; }
+        .bubbles span:nth-child(10){ left: 45%; width: 30px; height: 30px; animation-delay: 3s; }
+
+        .bubbles span:nth-child(1)  { background: hsl(10, 80%, 70%); }
+        .bubbles span:nth-child(2)  { background: hsl(40, 80%, 75%); }
+        .bubbles span:nth-child(3)  { background: hsl(90, 75%, 70%); }
+        .bubbles span:nth-child(4)  { background: hsl(140, 75%, 75%); }
+        .bubbles span:nth-child(5)  { background: hsl(180, 80%, 70%); }
+        .bubbles span:nth-child(6)  { background: hsl(200, 80%, 75%); }
+        .bubbles span:nth-child(7)  { background: hsl(240, 80%, 75%); }
+        .bubbles span:nth-child(8)  { background: hsl(280, 80%, 75%); }
+        .bubbles span:nth-child(9)  { background: hsl(320, 80%, 75%); }
+        .bubbles span:nth-child(10) { background: hsl(360, 80%, 75%); }
+
+
+        @keyframes rise {
+            0% {
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                transform: translateY(-120vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        
+
+
+    </style>
+</head>
+<body>
+
+    <h1>آلبوم شهر</h1>
+    <p></p>
+
+    <div class="gallery-container">
+
+        <div class="photo-card" onclick="openLightbox(0)">
+            <img src="/assets/gallery/01.png" data-full="/assets/gallery/01.png" loading="lazy" alt="01">
+        </div>
+
+        <div class="photo-card" onclick="openLightbox(1)">
+            <img src="/assets/gallery/02.png" data-full="/assets/gallery/02.png" loading="lazy" alt="02">
+        </div>
+
+        <div class="photo-card" onclick="openLightbox(2)">
+            <img src="/assets/gallery/03.png" data-full="/assets/gallery/03.png" loading="lazy" alt="03">
+        </div>
+
+        <div class="photo-card" onclick="openLightbox(3)">
+            <img src="/assets/gallery/04.png" data-full="/assets/gallery/04.png" loading="lazy" alt="04">
+        </div>
+
+        <div class="photo-card" onclick="openLightbox(4)">
+            <img src="/assets/gallery/05.png" data-full="/assets/gallery/05.png" loading="lazy" alt="05">
+        </div>
+
+        <div class="photo-card" onclick="openLightbox(5)">
+            <img src="/assets/gallery/06.png" data-full="/assets/gallery/06.png" loading="lazy" alt="06">
+        </div>
+
+        <div class="photo-card" onclick="openLightbox(6)">
+            <img src="/assets/gallery/07.png" data-full="/assets/gallery/07.png" loading="lazy" alt="07">
+        </div>
+
+
+    </div>
+
+
+    <div id="lightbox">
+        <button class="nav-btn close-btn" onclick="closeLightbox()">×</button>
+        <button class="nav-btn prev-btn" onclick="changeImage(-1)">❮</button>
+        
+        <img id="lightbox-img" src="" alt="بزرگنمایی">
+        
+        <button class="nav-btn next-btn" onclick="changeImage(1)">❯</button>
+        <div class="caption" id="caption-text">توضیحات عکس</div>
+    </div>
+
+    <script>
+        let currentIndex = 0;
+        const images = document.querySelectorAll('.photo-card img');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const captionText = document.getElementById('caption-text');
+
+        function openLightbox(index) {
+            currentIndex = index;
+            updateLightbox();
+            lightbox.style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            lightbox.style.display = 'none';
+        }
+
+        function changeImage(step) {
+            currentIndex += step;
+            if (currentIndex >= images.length) currentIndex = 0;
+            if (currentIndex < 0) currentIndex = images.length - 1;
+            updateLightbox();
+        }
+
+        function updateLightbox() {
+            const img = images[currentIndex];
+            const fullSrc = img.getAttribute('data-full');
+            lightboxImg.src = fullSrc;
+            captionText.innerText = img.alt || "تصویر ماینکرفت";
+        }
+
+
+        lightbox.onclick = function(e) {
+            if (e.target === lightbox) closeLightbox();
+        };
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") closeLightbox();
+            if (e.key === "ArrowRight") changeImage(1);
+            if (e.key === "ArrowLeft") changeImage(-1);
+        });
+    </script>
+</body>
+</html>

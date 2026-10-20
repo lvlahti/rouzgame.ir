@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دوز آنلاین</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Vazirmatn', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+    background-size: 200% 200%;
+    animation: bgMove 10s ease infinite;
+    color: #1f2937;
+  }
+  @keyframes bgMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .card {
+    background: rgba(255,255,255,0.97);
+    border-radius: 24px;
+    padding: 32px;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    text-align: center;
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 15px;
+    margin-bottom: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input:focus { border-color: #8b5cf6; }
+  button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  button:active { transform: scale(0.97); }
+  .btn-primary {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(99,102,241,0.4);
+  }
+  .btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+  }
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 18px 0;
+    color: #9ca3af;
+    font-size: 13px;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e5e7eb;
+  }
+  #screen-lobby, #screen-game { display: none; }
+  #screen-lobby.active, #screen-game.active { display: block; }
+  #screen-name.active { display: block; }
+  #screen-name { display: block; }
+
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #6b7280;
+  }
+  .player-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #f3f4f6;
+    font-weight: 600;
+  }
+  .player-badge.me { background: #ede9fe; color: #6d28d9; }
+  .player-badge.turn {
+    background: #dcfce7;
+    color: #15803d;
+    animation: pulse 1.2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(21,128,61,0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(21,128,61,0); }
+  }
+
+  #board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 20px auto;
+    max-width: 320px;
+    position: relative;
+  }
+  .cell {
+    aspect-ratio: 1;
+    background: #f9fafb;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    font-weight: 800;
+    cursor: pointer;
+    border: 2px solid #e5e7eb;
+    transition: background 0.2s, border-color 0.2s;
+    user-select: none;
+  }
+  .cell:hover:not(.filled) { background: #ede9fe; border-color: #c4b5fd; }
+  .cell.filled { cursor: not-allowed; }
+  .cell.x { color: #6366f1; }
+  .cell.o { color: #ec4899; }
+  .cell.pop { animation: pop 0.3s ease; }
+  @keyframes pop {
+    0% { transform: scale(0); opacity: 0; }
+    70% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .cell.win-line {
+    background: #fef3c7;
+    border-color: #fbbf24;
+    animation: winPulse 0.8s ease infinite;
+  }
+  @keyframes winPulse {
+    0%, 100% { background: #fef3c7; }
+    50% { background: #fde68a; }
+  }
+
+  #message {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 14px 0;
+    min-height: 22px;
+    color: #4b5563;
+  }
+
+  .room-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f3f4f6;
+    padding: 10px 14px;
+    border-radius: 12px;
+    margin-bottom: 14px;
+  }
+  .room-info code {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #6366f1;
+    text-align: left;
+    direction: ltr;
+  }
+  .copy-btn {
+    width: auto;
+    padding: 8px 14px;
+    margin: 0;
+    background: #6366f1;
+    color: #fff;
+    font-size: 13px;
+    border-radius: 8px;
+  }
+  .copy-btn.copied {
+    background: #10b981;
+  }
+
+  #connStatus {
+    font-size: 13px;
+    color: #9ca3af;
+    margin-bottom: 10px;
+  }
+  .spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #e5e7eb;
+    border-top-color: #6366f1;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+    margin-left: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- صفحه ورود نام -->
+  <div id="screen-name">
+    <h1>🎮 دوز آنلاین</h1>
+    <input type="text" id="nameInput" placeholder="نام خودت رو وارد کن" maxlength="14">
+    <button class="btn-primary" id="nameSubmitBtn">ادامه</button>
+  </div>
+
+  <!-- صفحه لابی -->
+  <div id="screen-lobby">
+    <h1>🎮 دوز آنلاین</h1>
+    <button class="btn-primary" id="hostBtn">ساخت بازی جدید</button>
+
+    <div class="divider">یا</div>
+
+    <input type="text" id="joinInput" placeholder="کد اتاق یا لینک دعوت را وارد کن">
+    <button class="btn-secondary" id="joinBtn">پیوستن به بازی</button>
+  </div>
+
+  <!-- صفحه بازی -->
+  <div id="screen-game">
+    <div id="connStatus"></div>
+
+    <div class="room-info" id="roomInfoBox">
+      <code id="roomCodeText">------</code>
+      <button class="copy-btn" id="copyBtn">کپی لینک</button>
+    </div>
+
+    <div class="status-bar">
+      <div class="player-badge me" id="badgeMe"></div>
+      <div class="player-badge" id="badgeOpponent">در انتظار حریف...</div>
+    </div>
+
+    <div id="message">در حال اتصال...</div>
+
+    <div id="board"></div>
+
+    <button class="btn-secondary" id="restartBtn" style="display:none;">بازی مجدد</button>
+    <button class="btn-secondary" id="leaveBtn">خروج از بازی</button>
+  </div>
+
+</div>
+
+<script>
+// ================== تنظیمات ICE / TURN ==================
+const PEER_CONFIG = {
+  config: {
+    iceServers: [
+      { urls: 'stun:stun.l.google.com:19302' },
+      { urls: 'stun:stun1.l.google.com:19302' },
+      {
+        urls: 'turn:openrelay.metered.ca:80',
+        username: 'openrelayproject',
+        credential: 'openrelayproject'
+      },
+      {
+        urls: 'turn:openrelay.metered.ca:443',
+        username: 'openrelayproject',
+        credential: 'openrelayproject'
+      },
+      {
+        urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+        username: 'openrelayproject',
+        credential: 'openrelayproject'
+      }
+    ]
+  }
+};
+
+// ================== وضعیت کلی ==================
+let peer = null;
+let conn = null;
+let isHost = false;
+let mySymbol = null;      // 'X' یا 'O'
+let opponentSymbol = null;
+let myTurn = false;
+let myName = '';
+let opponentName = 'حریف';
+let board = Array(9).fill(null);
+let gameOver = false;
+
+const WIN_LINES = [
+  [0,1,2],[3,4,5],[6,7,8],
+  [0,3,6],[1,4,7],[2,5,8],
+  [0,4,8],[2,4,6]
+];
+
+// ================== عناصر DOM ==================
+const screenName = document.getElementById('screen-name');
+const screenLobby = document.getElementById('screen-lobby');
+const screenGame = document.getElementById('screen-game');
+
+const nameInput = document.getElementById('nameInput');
+const nameSubmitBtn = document.getElementById('nameSubmitBtn');
+
+const hostBtn = document.getElementById('hostBtn');
+const joinBtn = document.getElementById('joinBtn');
+const joinInput = document.getElementById('joinInput');
+
+const connStatus = document.getElementById('connStatus');
+const roomInfoBox = document.getElementById('roomInfoBox');
+const roomCodeText = document.getElementById('roomCodeText');
+const copyBtn = document.getElementById('copyBtn');
+
+const badgeMe = document.getElementById('badgeMe');
+const badgeOpponent = document.getElementById('badgeOpponent');
+const messageEl = document.getElementById('message');
+const boardEl = document.getElementById('board');
+const restartBtn = document.getElementById('restartBtn');
+const leaveBtn = document.getElementById('leaveBtn');
+
+// ================== مدیریت صفحات ==================
+function showScreen(name) {
+  screenName.classList.remove('active');
+  screenLobby.classList.remove('active');
+  screenGame.classList.remove('active');
+  screenName.style.display = 'none';
+  screenLobby.style.display = 'none';
+  screenGame.style.display = 'none';
+
+  if (name === 'name') { screenName.style.display = 'block'; }
+  if (name === 'lobby') { screenLobby.style.display = 'block'; }
+  if (name === 'game') { screenGame.style.display = 'block'; }
+}
+
+// ================== شروع: بررسی لینک با ?room= ==================
+window.addEventListener('DOMContentLoaded', () => {
+  showScreen('name');
+
+  const savedName = localStorage.getItem('ttt_name');
+  if (savedName) nameInput.value = savedName;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const roomFromUrl = urlParams.get('room');
+  if (roomFromUrl) {
+    joinInput.value = roomFromUrl;
+  }
+});
+
+nameSubmitBtn.addEventListener('click', submitName);
+nameInput.addEventListener('keydown', e => { if (e.key === 'Enter') submitName(); });
+
+function submitName() {
+  const val = nameInput.value.trim();
+  if (!val) { nameInput.focus(); return; }
+  myName = val;
+  localStorage.setItem('ttt_name', myName);
+  showScreen('lobby');
+}
+
+// ================== استخراج هوشمند کد اتاق از پیست لینک ==================
+joinInput.addEventListener('input', () => {
+  const val = joinInput.value.trim();
+  if (val.includes('?room=') || val.includes('&room=')) {
+    try {
+      const url = new URL(val);
+      const roomCode = url.searchParams.get('room');
+      if (roomCode) {
+        joinInput.value = roomCode;
+      }
+    } catch (e) {
+      // لینک معتبر نبود، دست نزن
+    }
+  }
+});
+
+// ================== ساخت اتاق (Host) ==================
+hostBtn.addEventListener('click', () => {
+  isHost = true;
+  mySymbol = 'X';
+  opponentSymbol = 'O';
+
+  const roomCode = generateRoomCode();
+
+  connStatus.innerHTML = 'در حال ساخت اتاق... <span class="spinner"></span>';
+  showScreen('game');
+
+  peer = new Peer(roomCode, PEER_CONFIG);
+
+  peer.on('open', (id) => {
+    roomCodeText.textContent = id;
+    connStatus.textContent = 'منتظر پیوستن حریف...';
+    messageEl.textContent = 'منتظر حریف بمان...';
+  });
+
+  peer.on('connection', (connection) => {
+    conn = connection;
+    setupConnection();
+  });
+
+  peer.on('error', (err) => {
+    console.error(err);
+    connStatus.textContent = 'خطا در اتصال: ' + err.type;
+  });
+});
+
+function generateRoomCode() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code = '';
+  for (let i = 0; i < 5; i++) {
+    code += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return code;
+}
+
+// ================== پیوستن به اتاق (Join) ==================
+joinBtn.addEventListener('click', () => {
+  let code = joinInput.value.trim();
+  if (!code) { joinInput.focus(); return; }
+
+  // اگر کاربر کل لینک را پیست کرده بود
+  if (code.includes('room=')) {
+    try {
+      const url = new URL(code);
+      code = url.searchParams.get('room') || code;
+    } catch(e) {}
+  }
+
+  code = code.toUpperCase();
+
+  isHost = false;
+  mySymbol = 'O';
+  opponentSymbol = 'X';
+
+  connStatus.innerHTML = 'در حال اتصال به اتاق... <span class="spinner"></span>';
+  showScreen('game');
+  roomCodeText.textContent = code;
+  roomInfoBox.querySelector('.copy-btn').style.display = 'none';
+
+  peer = new Peer(PEER_CONFIG);
+
+  peer.on('open', () => {
+    conn = peer.connect(code, { reliable: true });
+    conn.on('open', () => {
+      setupConnection();
+      conn.send({ type: 'hello', name: myName });
+    });
+    conn.on('error', (err) => {
+      console.error(err);
+      connStatus.textContent = 'اتصال ناموفق بود. کد اتاق را بررسی کن.';
+    });
+  });
+
+  peer.on('error', (err) => {
+    console.error(err);
+    connStatus.textContent = 'خطا: ' + err.type;
+  });
+});
+
+// ================== راه‌اندازی اتصال (مشترک بین هاست و مهمان) ==================
+function setupConnection() {
+  connStatus.textContent = 'متصل شد ✅';
+  badgeOpponent.textContent = 'حریف: در حال آماده‌سازی...';
+  badgeOpponent.classList.remove('turn');
+  updateMyBadge();
+
+  conn.on('data', handleData);
+  conn.on('close', () => {
+    messageEl.textContent = 'حریف اتصال را قطع کرد.';
+    gameOver = true;
+    renderBoard();
+  });
+
+  if (isHost) {
+    myTurn = true;
+    resetBoard();
+    conn.on('open', () => {
+      conn.send({ type: 'hello', name: myName });
+    });
+  } else {
+    myTurn = false;
+  }
+
+  renderBoard();
+  updateMessage();
+}
+
+function handleData(data) {
+  switch (data.type) {
+    case 'hello':
+      opponentName = data.name || 'حریف';
+      badgeOpponent.textContent = `👤 ${opponentName} (${opponentSymbol})`;
+      if (isHost) {
+        conn.send({ type: 'hello', name: myName });
+      }
+      updateMessage();
+      break;
+
+    case 'move':
+      board[data.index] = opponentSymbol;
+      myTurn = true;
+      renderBoard();
+      checkGameEnd();
+      updateMessage();
+      break;
+
+    case 'restart':
+      resetBoard();
+      myTurn = !isHost ? true : false;
+      // در بازی مجدد نوبت برعکس می‌شود تا عادلانه باشد
+      myTurn = data.starterIsHost ? isHost : !isHost;
+      renderBoard();
+      updateMessage();
+      break;
+  }
+}
+
+// ================== بازی ==================
+function resetBoard() {
+  board = Array(9).fill(null);
+  gameOver = false;
+  restartBtn.style.display = 'none';
+  clearWinHighlight();
+}
+
+function renderBoard() {
+  boardEl.innerHTML = '';
+  board.forEach((val, idx) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    if (val) {
+      cell.classList.add('filled', val === 'X' ? 'x' : 'o');
+      cell.textContent = val === 'X' ? '✕' : '○';
+    }
+    cell.addEventListener('click', () => onCellClick(idx));
+    boardEl.appendChild(cell);
+  });
+}
+
+function onCellClick(idx) {
+  if (gameOver || board[idx] || !myTurn || !conn || !conn.open) return;
+
+  board[idx] = mySymbol;
+  myTurn = false;
+
+  const cellEl = boardEl.children[idx];
+  cellEl.classList.add('filled', mySymbol === 'X' ? 'x' : 'o', 'pop');
+  cellEl.textContent = mySymbol === 'X' ? '✕' : '○';
+
+  conn.send({ type: 'move', index: idx });
+
+  checkGameEnd();
+  updateMessage();
+}
+
+function checkGameEnd() {
+  for (const line of WIN_LINES) {
+    const [a,b,c] = line;
+    if (board[a] && board[a] === board[b] && board[b] === board[c]) {
+      gameOver = true;
+      highlightWin(line);
+      const winnerSymbol = board[a];
+      if (winnerSymbol === mySymbol) {
+        messageEl.textContent = '🎉 تو بردی!';
+      } else {
+        messageEl.textContent = '😢 حریف برد.';
+      }
+      restartBtn.style.display = 'block';
+      return;
+    }
+  }
+  if (board.every(cell => cell !== null)) {
+    gameOver = true;
+    messageEl.textContent = '🤝 مساوی شد!';
+    restartBtn.style.display = 'block';
+  }
+}
+
+function highlightWin(line) {
+  line.forEach(idx => {
+    boardEl.children[idx].classList.add('win-line');
+  });
+}
+
+function clearWinHighlight() {
+  Array.from(boardEl.children || []).forEach(c => c.classList.remove('win-line'));
+}
+
+function updateMessage() {
+  if (gameOver) return;
+  if (!conn || !conn.open) {
+    messageEl.textContent = 'در انتظار اتصال حریف...';
+    return;
+  }
+  messageEl.textContent = myTurn ? 'نوبت توست' : `نوبت ${opponentName} است`;
+
+  updateMyBadge();
+  badgeOpponent.classList.toggle('turn', !myTurn);
+}
+
+function updateMyBadge() {
+  badgeMe.textContent = `👤 ${myName} (${mySymbol})`;
+  badgeMe.classList.toggle('turn', myTurn);
+}
+
+// ================== بازی مجدد ==================
+restartBtn.addEventListener('click', () => {
+  resetBoard();
+  const starterIsHost = !isHost ? true : false; // نوبت بعدی برعکس هاست شروع اول
+  // برای سادگی: هاست همیشه شروع‌کننده دور اول بود، در دورهای بعد جابجا می‌شود
+  myTurn = isHost ? false : true;
+  conn.send({ type: 'restart', starterIsHost: !isHost });
+  renderBoard();
+  updateMessage();
+});
+
+// ================== خروج ==================
+leaveBtn.addEventListener('click', () => {
+  if (conn) conn.close();
+  if (peer) peer.destroy();
+  conn = null;
+  peer = null;
+  board = Array(9).fill(null);
+  gameOver = false;
+  showScreen('lobby');
+});
+
+// ================== کپی لینک دعوت ==================
+copyBtn.addEventListener('click', () => {
+  const roomCode = roomCodeText.textContent;
+  let textToCopy;
+
+  if (window.location.protocol === 'file:') {
+    // در حالت فایل محلی فقط کد اتاق کپی شود
+    textToCopy = roomCode;
+  } else {
+    // در حالت آنلاین لینک کامل با پارامتر room کپی شود
+    const url = new URL(window.location.href);
+    url.searchParams.set('room', roomCode);
+    textToCopy = url.toString();
+  }
+
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    const original = copyBtn.textContent;
+    copyBtn.textContent = 'کپی شد ✅';
+    copyBtn.classList.add('copied');
+    setTimeout(() => {
+      copyBtn.textContent = original;
+      copyBtn.classList.remove('copied');
+    }, 1800);
+  }).catch(() => {
+    // Fallback برای مرورگرهای قدیمی
+    const temp = document.createElement('textarea');
+    temp.value = textToCopy;
+    document.body.appendChild(temp);
+    temp.select();
+    document.execCommand('copy');
+    document.body.removeChild(temp);
+    copyBtn.textContent = 'کپی شد ✅';
+    setTimeout(() => { copyBtn.textContent = 'کپی لینک'; }, 1800);
+  });
+});
+</script>
+</body>
+</html>

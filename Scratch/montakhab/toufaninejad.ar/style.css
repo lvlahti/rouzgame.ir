@@ -14,7 +14,7 @@
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: 'Vazirmatn', sans-serif;
+  font-family: "SiteFont", sans-serif;
   padding: 40px 20px 60px;
   background:
     radial-gradient(circle at 15% 20%, #b8ffa6 0 140px, transparent 141px),
@@ -143,6 +143,14 @@ h1 {
   background: var(--green-mid);
 }
 
+@font-face {
+  font-family: "SiteFont";
+  src: url("/assets/fonts/main-font/site-font.woff2") format("woff2"),
+       url("/assets/fonts/main-font/site-font.woff") format("woff");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 @media (max-width: 1000px) {
   .game-container {

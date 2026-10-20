@@ -6,7 +6,7 @@
 
 body {
   min-height: 100vh;
-  font-family: 'Vazirmatn', sans-serif;
+  font-family: "SiteFont", sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -195,6 +195,15 @@ iframe {
 .move-left  { transform: translateX(-120vw); }
 .move-up    { transform: translateY(-120vh); }
 .move-down  { transform: translateY(120vh); }
+
+@font-face {
+  font-family: "SiteFont";
+  src: url("/assets/fonts/main-font/site-font.woff2") format("woff2"),
+       url("/assets/fonts/main-font/site-font.woff") format("woff");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 @media (max-width: 600px) {
   .axis-container {

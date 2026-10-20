@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حدس بزن | بازی گروهی نقاشی</title>
+<script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Vazirmatn', sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(-45deg, #0f0c29, #1a1a2e, #16213e, #0f0c29);
+  background-size: 400% 400%;
+  animation: bgMove 15s ease infinite;
+  color: #eaeaea;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+@keyframes bgMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pop {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.hidden { display: none !important; }
+
+.card {
+  background: rgba(30, 30, 46, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 30px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  animation: pop 0.3s ease;
+}
+
+h1, h2, h3 { color: #f4f4f5; margin-bottom: 15px; text-align: center; }
+
+input, select {
+  font-family: 'Vazirmatn', sans-serif;
+  width: 100%;
+  padding: 12px 14px;
+  margin: 8px 0;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: #1e1e2e;
+  color: #eaeaea;
+  font-size: 15px;
+  outline: none;
+  transition: border 0.2s;
+}
+input:focus, select:focus { border-color: #7c5cff; }
+input::placeholder { color: #888; }
+
+label { display: block; margin-top: 10px; color: #b3b3c6; font-size: 14px; }
+
+button {
+  font-family: 'Vazirmatn', sans-serif;
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #7c5cff, #5a3ff0);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+button:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(124,92,255,0.4); }
+button:active { transform: translateY(0); }
+
+button.secondary {
+  background: #2a2a3d;
+  color: #c9c9e0;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+button.secondary:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.3); }
+
+button.small { width: auto; padding: 8px 14px; font-size: 13px; }
+
+.row { display: flex; gap: 10px; }
+.row > * { flex: 1; }
+
+.divider {
+  text-align: center;
+  color: #7a7a90;
+  margin: 15px 0;
+  font-size: 13px;
+}
+
+.link-box {
+  display: flex;
+  gap: 8px;
+  background: #1e1e2e;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 8px;
+  align-items: center;
+}
+.link-box input { margin: 0; background: transparent; border: none; }
+
+/* ===== Game Screen ===== */
+#gameScreen {
+  width: 100%;
+  max-width: 1100px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(30,30,46,0.85);
+  border-radius: 14px;
+  padding: 12px 20px;
+  margin-bottom: 12px;
+  color: #eaeaea;
+}
+
+.word-display {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #ffd166;
+}
+
+.timer-box { display: flex; align-items: center; justify-content: center; }
+.timer-circle {
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  background: #2a2a3d;
+  border: 3px solid #7c5cff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+  color: #fff;
+}
+
+.main-area {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.canvas-wrap {
+  flex: 1;
+  min-width: 300px;
+  background: #1c1c2b;
+  border-radius: 14px;
+  padding: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+#drawCanvas {
+  width: 100%;
+  border-radius: 10px;
+  background: #fff;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.color-swatch {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid rgba(255,255,255,0.2);
+  transition: transform 0.15s;
+}
+.color-swatch:hover { transform: scale(1.15); }
+.color-swatch.active { border-color: #7c5cff; box-shadow: 0 0 0 2px #7c5cff; }
+
+.side-area {
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.players-panel, .chat-panel {
+  background: #1c1c2b;
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+.chat-panel { flex: 1; display: flex; flex-direction: column; }
+
+#gamePlayerList, #lobbyPlayerList { list-style: none; }
+#gamePlayerList li, #lobbyPlayerList li {
+  padding: 6px 8px;
+  border-radius: 8px;
+  margin-bottom: 4px;
+  background: rgba(255,255,255,0.03);
+  color: #d0d0e0;
+  font-size: 14px;
+}
+
+#chatMessages {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 250px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #d0d0e0;
+}
+#chatMessages div { margin-bottom: 4px; }
+
+.chat-input-row { display: flex; gap: 6px; }
+.chat-input-row input { margin: 0; }
+.chat-input-row button { width: auto; padding: 10px 16px; }
+
+/* ===== Overlays ===== */
+.word-choice-overlay, .final-overlay {
+  position: fixed; inset: 0;
+  background: rgba(10,10,20,0.75);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100;
+}
+
+.word-choice-box, .final-box {
+  background: #1e1e2e;
+  border-radius: 18px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+
+#wordOptionsBox button, #finalListBox {
+  margin: 10px 0;
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-thumb { background: #3a3a52; border-radius: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+</style>
+</head>
+<body>
+
+<!-- ============ SETUP SCREEN ============ -->
+<div id="setupScreen" class="card">
+  <h1>🎨 حدس <span>بزن</span></h1>
+
+  <div id="nameSection">
+    <label>نام شما</label>
+    <input id="playerNameInput" placeholder="مثلاً علی" maxlength="14">
+    <button id="btnGoHost">ساخت لابی جدید </button>
+    <div class="divider">— یا —</div>
+    <label>کد لابی / لینک دعوت</label>
+    <input id="joinCodeInput" placeholder="کد اتاق را وارد یا پیست کنید">
+    <button id="btnJoin" class="secondary">پیوستن به لابی</button>
+  </div>
+</div>
+
+<!-- ============ LOBBY SCREEN (host settings + player list) ============ -->
+<div id="lobbyScreen" class="card hidden">
+  <h1><span>لابی</span> بازی</h1>
+
+  <div id="hostSettings">
+    <label>مدت زمان هر نقاشی (ثانیه)</label>
+    <input type="number" id="drawTimeInput" value="80" min="20" max="300">
+    <label>تعداد راند (هر بازیکن چند بار نقاشی بکشد)</label>
+    <input type="number" id="roundsInput" value="2" min="1" max="10">
+    <button id="btnStartGame">شروع بازی</button>
+  </div>
+
+  <div class="divider">لینک دعوت</div>
+  <div class="link-box">
+    <input id="inviteLinkBox" readonly>
+    <button id="btnCopyLink" class="small secondary">کپی</button>
+  </div>
+
+  <div class="divider">بازیکنان (<span id="playerCountLbl">1</span>)</div>
+  <div id="lobbyPlayerList"></div>
+
+  <div id="waitingMsg" class="divider hidden">در انتظار شروع بازی توسط میزبان...</div>
+</div>
+
+<!-- ============ GAME SCREEN ============ -->
+<div id="gameScreen" class="hidden">
+  <div class="topbar">
+    <div>راند <span id="roundLbl">1</span>/<span id="totalRoundsLbl">1</span></div>
+    <div class="word-display" id="wordDisplay">_ _ _ _</div>
+    <div class="timer-box">
+      <div class="timer-circle" id="timerCircle" style="--p:100%">--</div>
+    </div>
+  </div>
+
+  <div class="main-area">
+    <div class="canvas-wrap">
+      <canvas id="drawCanvas"></canvas>
+      <div class="tools" id="toolsBar">
+        <div class="color-swatch active" style="background:#000" data-color="#000000"></div>
+        <div class="color-swatch" style="background:#000000" data-color="#000000"></div>
+        <div class="color-swatch" style="background:#ffffff" data-color="#ffffff"></div>
+        <div class="color-swatch" style="background:#ff1900" data-color="#e74c3c"></div>
+        <div class="color-swatch" style="background:#ff006f" data-color="#ff006f"></div>
+        <div class="color-swatch" style="background:#2ecc71" data-color="#2ecc71"></div>
+        <div class="color-swatch" style="background:#00461d" data-color="#00461d"></div>
+        <div class="color-swatch" style="background:#3498db" data-color="#3498db"></div>
+        <div class="color-swatch" style="background:#004979" data-color="#004979"></div>
+        <div class="color-swatch" style="background:#f1c40f" data-color="#f1c40f"></div>
+        <div class="color-swatch" style="background:#f58b01" data-color="#f58b01"></div>
+        <div class="color-swatch" style="background:#9b59b6" data-color="#9b59b6"></div>
+        <div class="color-swatch" style="background:#4e3300" data-color="#4e3300"></div>
+        <div class="color-swatch" style="background:#00ffe1" data-color="#00ffe1"></div>
+        <input type="color" id="customColorPicker" onchange="setColor(this.value)">
+
+        <div class="color-swatch" style="background:#fff;border-color:#999" data-color="#ffffff"></div>
+        <input type="range" id="brushSize" min="2" max="30" value="5">
+        <button class="small secondary" id="btnClearCanvas">پاک کردن</button>
+      </div>
+    </div>
+
+    <div class="side-area">
+      <div class="players-panel">
+        <h3>بازیکنان</h3>
+        <div id="gamePlayerList"></div>
+      </div>
+      <div class="chat-panel">
+        <h3>چت / حدس بزن</h3>
+        <div id="chatMessages"></div>
+        <div class="chat-input-row">
+          <input id="chatInput" placeholder="حدس خود را تایپ کنید...">
+          <button id="btnSendChat">ارسال</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Word choice overlay for the drawer -->
+<div id="wordChoiceOverlay" class="word-choice-overlay hidden">
+  <div class="word-choice-box">
+    <h2>نوبت نقاشی شماست!</h2>
+    <p style="opacity:.8; margin-top:8px;">یکی از کلمات زیر را انتخاب کنید</p>
+    <div class="word-options" id="wordOptionsBox"></div>
+  </div>
+</div>
+
+<!-- Final results overlay -->
+<div id="finalOverlay" class="final-overlay hidden">
+  <div class="final-box">
+    <h2>🏆 نتایج نهایی</h2>
+    <div class="final-list" id="finalListBox"></div>
+    <button id="btnBackToSetup">بازگشت به منو</button>
+  </div>
+</div>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="game.js"></script>
+</body>
+</body>
+</html>

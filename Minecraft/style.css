@@ -7,7 +7,7 @@
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: 'Vazirmatn', sans-serif;
+  font-family: "SiteFont", sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,6 +61,15 @@ body {
 @keyframes float2 {
   0%,100% { transform: translateX(0); }
   50% { transform: translateX(35px); }
+}
+
+@font-face {
+  font-family: "SiteFont";
+  src: url("/assets/fonts/main-font/site-font.woff2") format("woff2"),
+       url("/assets/fonts/main-font/site-font.woff") format("woff");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
 }
 
 .eyes {
@@ -130,12 +139,16 @@ body {
 
 
 .games {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  position: relative;;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-inline: auto;
   gap: 20px;
-  width: 100%;
-  max-width: 600px;
-  z-index: 2;
+  width: auto;
+  max-width: auto;
+  z-index: 3;
 }
 
 a {
@@ -143,31 +156,31 @@ a {
 }
 
 .game-btn {
-  background: white;
-  border-radius: 20px;
-  padding: 20px;
-  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: transparent;
+  border-radius: 40px;
+  padding: 20px;
+  text-align: center;
   font-size: 1.2rem;
   font-weight: bold;
-  color: #333;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  transition: transform 0.2s, box-shadow 0.3s, filter 0.3s;
-  position: relative;
-  z-index: 1;
+  color: #33333300;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0);
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-family: 'Minecraft';
+  
 }
 
 .game-btn:hover {
   transform: translateY(-5px);
-  box-shadow: 0 0 30px 10px rgba(255, 255, 150, 0.7), 0 12px 25px rgba(0,0,0,0.15);
+  box-shadow: 0 12px 25px rgba(59, 206, 216, 0.788);
 }
 
 .game-btn img {
-  width: 120px;
-  height: 120px;
+  width: 400px;
+  height: 200px;
   object-fit: contain;
   margin-bottom: 12px;
 }
