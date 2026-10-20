@@ -75,14 +75,6 @@ iframe {
   box-shadow: inset 0 0 0 3px #2aeb44;
 }
 
-@font-face {
-  font-family: "SiteFont";
-  src: url("/assets/fonts/main-font/site-font.woff2") format("woff2"),
-       url("/assets/fonts/main-font/site-font.woff") format("woff");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
 
 
 @media (max-width: 860px) {

@@ -1,0 +1,31 @@
+/* Central font declarations for Rouzgame. Keep page-specific font-family choices in their own stylesheets. */
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/main-font/Vazirmatn[wght].woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SiteFont";
+  src: url("../fonts/main-font/site-font.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SiteFontBold";
+  src: url("../fonts/main-font/Vazirmatn-Bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Minecraft";
+  src: url("../fonts/Minecraft.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
